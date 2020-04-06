@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
 
 public class CityDAO {
 
@@ -32,5 +34,29 @@ public class CityDAO {
             e.printStackTrace();
             throw new NoSuchElementException();
         }
+    }
+
+    public List<City> findAll() {
+
+        String getAllRowsSql = "SELECT * FROM cities;";
+
+        LinkedList<City> cities = new LinkedList<>();
+        try (Connection connection = ConnectionManager.getConnection();
+             Statement statement = connection.prepareStatement(getAllRowsSql);
+             ResultSet resultSet = statement.executeQuery(getAllRowsSql)) {
+
+            while (resultSet.next()) {
+                City city = City.builder().build();
+                city.setId(resultSet.getLong("id"));
+                city.setName(resultSet.getString("name"));
+                city.setStation(resultSet.getString("station"));
+
+                cities.add(city);
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+
+        return cities;
     }
 }

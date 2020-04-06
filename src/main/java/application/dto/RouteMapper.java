@@ -11,9 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public interface RouteMapper {
+public class RouteMapper {
 
-    default RouteDTO routeToRouteDto (Route route) {
+    public RouteDTO routeToRouteDto (Route route) {
 
         City departure = null;
         City destination = null;
@@ -34,7 +34,7 @@ public interface RouteMapper {
                 .build();
     }
 
-    default Route routeDtoToRoute(RouteDTO routeDTO) {
+    public Route routeDtoToRoute(RouteDTO routeDTO) {
         return Route.builder()
                 .id(routeDTO.getId())
                 .departureId(routeDTO.getDeparture().getId())
@@ -45,7 +45,7 @@ public interface RouteMapper {
                 .build();
     }
 
-    default List<RouteDTO> routesToRouteDTOs(List<Route> routes) {
+    public List<RouteDTO> routesToRouteDTOs(List<Route> routes) {
         return routes.stream().map(this::routeToRouteDto).collect(Collectors.toCollection(LinkedList::new));
     }
 }
