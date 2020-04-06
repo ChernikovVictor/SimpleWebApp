@@ -6,6 +6,7 @@ import application.dto.RouteMapper;
 import application.exception.InsertionFailedException;
 import application.exception.NoSuchElementException;
 import application.model.Route;
+import application.model.TransportKinds;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class RouteService {
         return routeMapper.routesToRouteDTOs(routeDAO.findAll());
     }
 
-    public void add(Route route) throws InsertionFailedException {
-        routeDAO.add(route);
+    public List<RouteDTO> findAllByTransportKind(TransportKinds kind) {
+        return routeMapper.routesToRouteDTOs(routeDAO.findAllByTransportKind(kind));
     }
 }

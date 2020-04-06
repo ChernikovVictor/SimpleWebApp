@@ -3,6 +3,7 @@ package application.dao;
 import application.exception.InsertionFailedException;
 import application.exception.NoSuchElementException;
 import application.model.Route;
+import application.model.TransportKinds;
 import application.util.ConnectionManager;
 
 import java.io.IOException;
@@ -107,13 +108,22 @@ public class RouteDAO {
     }
 
     public List<Route> findAll() {
+        return findAllBySqlCommand("SELECT * FROM routes;");
+    }
 
-        String getAllRowsSql = "SELECT * FROM routes;";
+    public List<Route> findAllByTransportKind(TransportKinds kind) {
+        String sqlCommand = "SELECT routes.id, departure_id, destination_id, departure_time, arrival_time, transport_id " +
+                "FROM routes, transports WHERE routes.transport_id = transports.id " +
+                "AND transports.kind = \"" + kind.name() + "\";";
+        return findAllBySqlCommand(sqlCommand);
+    }
+
+    private List<Route> findAllBySqlCommand(String sqlCommand) {
 
         LinkedList<Route> routes = new LinkedList<>();
         try (Connection connection = ConnectionManager.getConnection();
-             Statement statement = connection.prepareStatement(getAllRowsSql);
-             ResultSet resultSet = statement.executeQuery(getAllRowsSql)) {
+             Statement statement = connection.prepareStatement(sqlCommand);
+             ResultSet resultSet = statement.executeQuery(sqlCommand)) {
 
             while (resultSet.next()) {
                 Route route = Route.builder().build();
@@ -132,5 +142,4 @@ public class RouteDAO {
 
         return routes;
     }
-
 }

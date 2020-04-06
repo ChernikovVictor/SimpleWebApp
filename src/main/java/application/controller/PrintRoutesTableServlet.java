@@ -1,6 +1,7 @@
 package application.controller;
 
 import application.dto.RouteDTO;
+import application.model.TransportKinds;
 import application.service.RouteService;
 
 import javax.servlet.ServletException;
@@ -19,13 +20,26 @@ public class PrintRoutesTableServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        writeTable(resp.getWriter());
+
+        List<RouteDTO> routeDTOs;
+        String kind = req.getParameter("kind");
+        if (kind == null) {
+            return;
+        } else if (kind.equals("trains")) {
+            routeDTOs = routeService.findAllByTransportKind(TransportKinds.TRAIN);
+        } else if (kind.equals("planes")) {
+            routeDTOs = routeService.findAllByTransportKind(TransportKinds.PLANE);
+        } else {
+            routeDTOs = routeService.findAll();
+        }
+
+        writeTable(routeDTOs, resp.getWriter());
     }
 
-    private void writeTable(PrintWriter writer) {
+    private void writeTable(List<RouteDTO> routeDTOs, PrintWriter writer) {
         writer.write("<table id=\"table\" width=\"90%\" border=\"1px\" cellspacing=\"0px\" cellpadding=\"4px\" align=\"center\">\n");
         writeHeader(writer);
-        writeRows(writer);
+        writeRows(routeDTOs, writer);
         writer.write("</table>");
     }
 
@@ -41,8 +55,7 @@ public class PrintRoutesTableServlet extends HttpServlet {
                 "</tr>");
     }
 
-    private void writeRows(PrintWriter writer) {
-        List<RouteDTO> routeDTOs = routeService.findAll();
+    private void writeRows(List<RouteDTO> routeDTOs, PrintWriter writer) {
         routeDTOs.forEach(routeDTO -> {
             writer.write("<tr>\n");
             String id = routeDTO.getId().toString();
