@@ -29,7 +29,7 @@ public class RouteAddServlet extends HttpServlet {
         } catch (InsertionFailedException e) {
             e.printStackTrace();
         } finally {
-            resp.sendRedirect("/view/MainPage.jsp");
+            resp.sendRedirect("/view/MainPage.jsp?kind=all");
         }
     }
 }

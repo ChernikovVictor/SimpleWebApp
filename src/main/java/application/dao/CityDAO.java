@@ -30,7 +30,7 @@ public class CityDAO {
                 throw new NoSuchElementException();
             }
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new NoSuchElementException();
         }
@@ -53,7 +53,7 @@ public class CityDAO {
 
                 cities.add(city);
             }
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

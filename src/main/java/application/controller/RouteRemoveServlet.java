@@ -21,6 +21,6 @@ public class RouteRemoveServlet extends HttpServlet {
             Long id =Long.parseLong(req.getParameter("id"));
             routeService.removeById(id);
         } catch (NumberFormatException | NoSuchElementException ignored) {}
-        resp.sendRedirect("/view/MainPage.jsp");
+        resp.sendRedirect("/view/MainPage.jsp?kind=all");
     }
 }

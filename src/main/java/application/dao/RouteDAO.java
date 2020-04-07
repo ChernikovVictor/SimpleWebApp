@@ -37,7 +37,7 @@ public class RouteDAO {
                 throw new NoSuchElementException();
             }
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new NoSuchElementException();
         }
@@ -60,7 +60,7 @@ public class RouteDAO {
 
             statement.executeUpdate();
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new InsertionFailedException();
         }
@@ -78,7 +78,7 @@ public class RouteDAO {
                 throw new NoSuchElementException();
             }
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new NoSuchElementException();
         }
@@ -102,7 +102,7 @@ public class RouteDAO {
 
             statement.executeUpdate();
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -136,7 +136,7 @@ public class RouteDAO {
 
                 routes.add(route);
             }
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

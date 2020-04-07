@@ -32,7 +32,7 @@ public class TransportDAO {
                 throw new NoSuchElementException();
             }
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new NoSuchElementException();
         }
@@ -56,7 +56,7 @@ public class TransportDAO {
 
                 transports.add(transport);
             }
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

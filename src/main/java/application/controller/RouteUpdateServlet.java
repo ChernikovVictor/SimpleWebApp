@@ -28,6 +28,6 @@ public class RouteUpdateServlet extends HttpServlet {
                 .build();
 
         (new RouteDAO()).updateById(route.getId(), route);
-        resp.sendRedirect("/view/MainPage.jsp");
+        resp.sendRedirect("/view/MainPage.jsp?kind=all");
     }
 }
