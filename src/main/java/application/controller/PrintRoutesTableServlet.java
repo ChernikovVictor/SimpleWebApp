@@ -1,6 +1,7 @@
 package application.controller;
 
 import application.dto.RouteDTO;
+import application.exception.NoSuchElementException;
 import application.model.TransportKinds;
 import application.service.RouteService;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
 import java.util.List;
 
 @WebServlet("/routesTable")
@@ -23,14 +25,18 @@ public class PrintRoutesTableServlet extends HttpServlet {
 
         List<RouteDTO> routeDTOs;
         String kind = req.getParameter("kind");
-        if (kind == null) {
-            return;
-        } else if (kind.equals("trains")) {
-            routeDTOs = routeService.findAllByTransportKind(TransportKinds.TRAIN);
-        } else if (kind.equals("planes")) {
-            routeDTOs = routeService.findAllByTransportKind(TransportKinds.PLANE);
-        } else {
-            routeDTOs = routeService.findAll();
+        try {
+            if (kind == null) {
+                return;
+            } else if (kind.equals("trains")) {
+                routeDTOs = routeService.findAllByTransportKind(TransportKinds.TRAIN);
+            } else if (kind.equals("planes")) {
+                routeDTOs = routeService.findAllByTransportKind(TransportKinds.PLANE);
+            } else {
+                routeDTOs = routeService.findAll();
+            }
+        } catch (NoSuchElementException e) {
+            routeDTOs = new LinkedList<>();
         }
 
         writeTable(routeDTOs, resp.getWriter());

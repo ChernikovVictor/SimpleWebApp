@@ -1,20 +1,19 @@
 package application.dao;
 
-import application.exception.NoSuchElementException;
 import application.model.City;
 import application.util.ConnectionManager;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class CityDAO {
 
-    public City findById(Long id) throws NoSuchElementException {
+    public Optional<City> findById(Long id) {
 
         String getCitySql = "SELECT * FROM cities WHERE id = " + id + ";";
 
@@ -25,15 +24,17 @@ public class CityDAO {
             if (resultSet.next()) {
                 String name = resultSet.getString("name");
                 String station  = resultSet.getString("station");
-                return City.builder().id(id).name(name).station(station).build();
-            } else {
-                throw new NoSuchElementException();
+                return Optional.ofNullable(City.builder()
+                        .id(id)
+                        .name(name)
+                        .station(station)
+                        .build());
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new NoSuchElementException();
         }
+
+        return Optional.empty();
     }
 
     public List<City> findAll() {

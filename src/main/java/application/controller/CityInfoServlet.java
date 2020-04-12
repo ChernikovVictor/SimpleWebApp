@@ -19,7 +19,7 @@ public class CityInfoServlet extends HttpServlet {
 
         try {
             Long id = Long.parseLong(req.getParameter("id"));
-            City city = (new CityDAO()).findById(id);
+            City city = (new CityDAO()).findById(id).orElseThrow(NoSuchElementException::new);
             req.setAttribute("id", id);
             req.setAttribute("name", city.getName());
             req.setAttribute("station", city.getStation());

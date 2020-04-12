@@ -19,7 +19,7 @@ public class TransportInfoServlet extends HttpServlet {
 
         try {
             Long id = Long.parseLong(req.getParameter("id"));
-            Transport transport = (new TransportDAO()).findById(id);
+            Transport transport = (new TransportDAO()).findById(id).orElseThrow(NoSuchElementException::new);
             req.setAttribute("id", id);
             req.setAttribute("kind", transport.getKind().name());
             req.setAttribute("name", transport.getName());

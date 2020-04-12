@@ -18,8 +18,8 @@ public class RouteService {
     private final RouteDAO routeDAO = new RouteDAO();
 
     public RouteDTO findById(Long id) throws NoSuchElementException {
-        Route route = routeDAO.findById(id);
-        return routeMapper.routeToRouteDto(route);
+        Route route = routeDAO.findById(id).orElseThrow(NoSuchElementException::new);
+        return routeMapper.routeToRouteDto(route).orElseThrow(NoSuchElementException::new);
     }
 
     public void add(RouteDTO routeDTO) throws InsertionFailedException {
@@ -36,11 +36,11 @@ public class RouteService {
         routeDAO.updateById(id, route);
     }
 
-    public List<RouteDTO> findAll() {
+    public List<RouteDTO> findAll() throws NoSuchElementException {
         return routeMapper.routesToRouteDTOs(routeDAO.findAll());
     }
 
-    public List<RouteDTO> findAllByTransportKind(TransportKinds kind) {
+    public List<RouteDTO> findAllByTransportKind(TransportKinds kind) throws NoSuchElementException {
         return routeMapper.routesToRouteDTOs(routeDAO.findAllByTransportKind(kind));
     }
 }

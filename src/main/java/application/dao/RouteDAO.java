@@ -6,14 +6,14 @@ import application.model.Route;
 import application.model.TransportKinds;
 import application.util.ConnectionManager;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class RouteDAO {
 
-    public Route findById(Long id) throws NoSuchElementException {
+    public Optional<Route> findById(Long id) {
 
         String getRouteSql = "SELECT * FROM routes WHERE id = " + id + ";";
 
@@ -27,20 +27,20 @@ public class RouteDAO {
                 String departure_time = resultSet.getString("departure_time");
                 String arrival_time = resultSet.getString("arrival_time");
                 Long transport_id = resultSet.getLong("transport_id");
-                return Route.builder().id(id)
+                return Optional.ofNullable(Route.builder()
+                        .id(id)
                         .departureId(departure_id)
                         .destinationId(destination_id)
                         .departureTime(departure_time)
                         .arrivalTime(arrival_time)
-                        .transportId(transport_id).build();
-            } else {
-                throw new NoSuchElementException();
+                        .transportId(transport_id)
+                        .build());
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new NoSuchElementException();
         }
+
+        return Optional.empty();
     }
 
     public void add(Route route) throws InsertionFailedException {
