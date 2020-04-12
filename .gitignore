@@ -9,4 +9,5 @@ WebApp.iml
 target/
 
 # access to database
-src/main/resources/database.properties
+#src/main/resources/database.properties
+#src/main/resources/datasource.properties

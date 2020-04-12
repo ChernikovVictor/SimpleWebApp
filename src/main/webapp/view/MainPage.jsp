@@ -16,7 +16,7 @@
         <a href="${pageContext.request.contextPath}/view/MainPage.jsp?kind=planes">Только самолеты</a>
     </p>
 
-    <jsp:include page="/routesTable?${requestScope.kind}" />
+    <jsp:include page="/routesTable" />
     <br>
 
     <form action="${pageContext.request.contextPath}/view/AddRoutePage.jsp" method="get">

@@ -10,4 +10,8 @@
          http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          id="WebApp_ID" version="2.5">
   <display-name>Archetype Created Web Application</display-name>
+
+  <welcome-file-list>
+    <welcome-file>view/MainPage.jsp</welcome-file>
+  </welcome-file-list>
 </web-app>
