@@ -11,6 +11,12 @@
          id="WebApp_ID" version="2.5">
   <display-name>Archetype Created Web Application</display-name>
 
+  <resource-ref>
+    <res-ref-name>jdbc/myDataSource</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+
   <welcome-file-list>
     <welcome-file>view/MainPage.jsp</welcome-file>
   </welcome-file-list>

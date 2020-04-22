@@ -6,6 +6,7 @@ import application.model.Route;
 import application.model.TransportKinds;
 import application.util.ConnectionManager;
 
+import javax.naming.NamingException;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class RouteDAO {
                         .transportId(transport_id)
                         .build());
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NamingException e) {
             e.printStackTrace();
         }
 
@@ -60,7 +61,7 @@ public class RouteDAO {
 
             statement.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch (SQLException | NamingException e) {
             e.printStackTrace();
             throw new InsertionFailedException();
         }
@@ -78,7 +79,7 @@ public class RouteDAO {
                 throw new NoSuchElementException();
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | NamingException e) {
             e.printStackTrace();
             throw new NoSuchElementException();
         }
@@ -102,7 +103,7 @@ public class RouteDAO {
 
             statement.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch (SQLException | NamingException e) {
             e.printStackTrace();
         }
     }
@@ -136,7 +137,7 @@ public class RouteDAO {
 
                 routes.add(route);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NamingException e) {
             e.printStackTrace();
         }
 

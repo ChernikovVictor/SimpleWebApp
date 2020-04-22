@@ -3,6 +3,7 @@ package application.dao;
 import application.model.City;
 import application.util.ConnectionManager;
 
+import javax.naming.NamingException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +31,7 @@ public class CityDAO {
                         .station(station)
                         .build());
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NamingException e) {
             e.printStackTrace();
         }
 
@@ -54,7 +55,7 @@ public class CityDAO {
 
                 cities.add(city);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NamingException e) {
             e.printStackTrace();
         }
 

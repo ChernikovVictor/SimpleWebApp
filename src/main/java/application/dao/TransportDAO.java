@@ -4,6 +4,7 @@ import application.model.Transport;
 import application.model.TransportKinds;
 import application.util.ConnectionManager;
 
+import javax.naming.NamingException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +34,7 @@ public class TransportDAO {
                         .capacity(capacity)
                         .build());
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NamingException e) {
             e.printStackTrace();
         }
 
@@ -58,7 +59,7 @@ public class TransportDAO {
 
                 transports.add(transport);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NamingException e) {
             e.printStackTrace();
         }
 
