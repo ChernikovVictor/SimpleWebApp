@@ -43,4 +43,8 @@ public class RouteService {
     public List<RouteDTO> findAllByTransportKind(TransportKinds kind) throws NoSuchElementException {
         return routeMapper.routesToRouteDTOs(routeDAO.findAllByTransportKind(kind));
     }
+
+    public List<RouteDTO> findAllByIds(List<Long> ids) throws NoSuchElementException {
+        return routeMapper.routesToRouteDTOs(routeDAO.findAllByIds(ids));
+    }
 }

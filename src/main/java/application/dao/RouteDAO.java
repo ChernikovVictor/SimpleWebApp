@@ -11,6 +11,7 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class RouteDAO {
 
@@ -142,5 +143,12 @@ public class RouteDAO {
         }
 
         return routes;
+    }
+
+    public List<Route> findAllByIds(List<Long> ids) {
+        return ids.stream().map(this::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 }

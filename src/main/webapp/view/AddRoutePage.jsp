@@ -1,5 +1,3 @@
-<%@ page import="application.dao.CityDAO" %>
-<%@ page import="application.service.RouteService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -8,7 +6,7 @@
 </head>
 <body>
 
-<form action="${pageContext.request.contextPath}/addRoute" method="post">
+<form action="${pageContext.request.contextPath}/addRoute" method="get">
 
     <b>Введите информацию о рейсе</b><br>
 

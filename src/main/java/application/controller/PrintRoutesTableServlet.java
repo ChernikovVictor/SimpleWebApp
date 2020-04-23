@@ -2,7 +2,6 @@ package application.controller;
 
 import application.dto.RouteDTO;
 import application.exception.NoSuchElementException;
-import application.model.TransportKinds;
 import application.service.RouteService;
 
 import javax.servlet.ServletException;
@@ -12,34 +11,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedList;
 import java.util.List;
 
+/* Сервлет, отображающий запрошенные маршруты в html-таблицу */
 @WebServlet("/routesTable")
 public class PrintRoutesTableServlet extends HttpServlet {
 
-    private final RouteService routeService = new RouteService();
+    private RouteService routeService = new RouteService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        List<RouteDTO> routeDTOs;
-        String kind = req.getParameter("kind");
-        try {
-            if (kind == null) {
-                return;
-            } else if (kind.equals("trains")) {
-                routeDTOs = routeService.findAllByTransportKind(TransportKinds.TRAIN);
-            } else if (kind.equals("planes")) {
-                routeDTOs = routeService.findAllByTransportKind(TransportKinds.PLANE);
-            } else {
-                routeDTOs = routeService.findAll();
-            }
-        } catch (NoSuchElementException e) {
-            routeDTOs = new LinkedList<>();
+        // айдишники запрошенных маршрутов
+        Object listId = req.getSession().getAttribute("listId");
+        if (listId == null) {
+            return;
         }
 
-        writeTable(routeDTOs, resp.getWriter());
+        try {
+            List<RouteDTO> routeDTOs = routeService.findAllByIds((List<Long>) listId);
+            writeTable(routeDTOs, resp.getWriter());
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void writeTable(List<RouteDTO> routeDTOs, PrintWriter writer) {

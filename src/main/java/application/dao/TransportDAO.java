@@ -47,7 +47,7 @@ public class TransportDAO {
 
         LinkedList<Transport> transports = new LinkedList<>();
         try (Connection connection = ConnectionManager.getConnection();
-             Statement statement = connection.prepareStatement(getAllRowsSql);
+             Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(getAllRowsSql)) {
 
             while (resultSet.next()) {

@@ -11,17 +11,26 @@
     <br>
 
     <p>
-        <a href="${pageContext.request.contextPath}/view/MainPage.jsp?kind=all">Все маршруты</a>
-        <a href="${pageContext.request.contextPath}/view/MainPage.jsp?kind=trains">Только поезда</a>
-        <a href="${pageContext.request.contextPath}/view/MainPage.jsp?kind=planes">Только самолеты</a>
+        <a href="${pageContext.request.contextPath}/findRoutes?kind=all">Все маршруты</a>
+        <a href="${pageContext.request.contextPath}/findRoutes?kind=trains">Только поезда</a>
+        <a href="${pageContext.request.contextPath}/findRoutes?kind=planes">Только самолеты</a>
     </p>
 
+    <%-- Таблица маршрутов    --%>
     <jsp:include page="/routesTable" />
     <br>
 
-    <form action="${pageContext.request.contextPath}/view/AddRoutePage.jsp" method="get">
+    <%-- Добавить маршрут    --%>
+    <form action="${pageContext.request.contextPath}/view/AddRoutePage.jsp">
         <p>
-            <input type="submit" value="Добавить" />
+            <input type="submit" value="Добавить"/>
+        </p>
+    </form>
+
+    <%-- Сохранить как xml-документ    --%>
+    <form action="${pageContext.request.contextPath}/xmlLoader" method="get">
+        <p>
+            <input type="submit" value="Сохранить"/>
         </p>
     </form>
 

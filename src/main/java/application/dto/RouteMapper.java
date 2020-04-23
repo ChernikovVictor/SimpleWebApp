@@ -59,6 +59,14 @@ public class RouteMapper {
             throw new NoSuchElementException();
         }
 
-        return routeDTOs.stream().map(Optional::get).collect(Collectors.toCollection(LinkedList::new));
+        return routeDTOs.stream()
+                .map(Optional::get)
+                .collect(Collectors.toCollection(LinkedList::new));
+      }
+
+    public List<Route> routesDTOsToRoutes(List<RouteDTO> routeDTOs) {
+        return routeDTOs.stream()
+                .map(this::routeDtoToRoute)
+                .collect(Collectors.toCollection(LinkedList::new));
       }
 }

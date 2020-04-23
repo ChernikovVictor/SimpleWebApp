@@ -15,7 +15,7 @@ import java.io.IOException;
 public class RouteAddServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         Route route = Route.builder()
                 .departureId(Long.parseLong(req.getParameter("departure")))
@@ -24,12 +24,14 @@ public class RouteAddServlet extends HttpServlet {
                 .arrivalTime(req.getParameter("arrival_time"))
                 .transportId(Long.parseLong(req.getParameter("transport_kind")))
                 .build();
+
         try {
             (new RouteDAO()).add(route);
         } catch (InsertionFailedException e) {
             e.printStackTrace();
         } finally {
-            resp.sendRedirect("/view/MainPage.jsp?kind=all");
+            // TODO: Добавлять новый индекс в список айдишиков, а не искать всё заново
+            req.getRequestDispatcher("/findRoutes?kind=all").forward(req, resp);
         }
     }
 }
