@@ -9,10 +9,6 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>WebApp Maven Webapp</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -22,9 +18,9 @@
   <dependencies>
 
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>4.0.1</version>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>7.0</version>
       <scope>provided</scope>
     </dependency>
 
@@ -46,17 +42,6 @@
     <finalName>WebApp</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
-
-        <!-- Tomcat -->
-        <plugin>
-          <groupId>org.apache.tomcat.maven</groupId>
-          <artifactId>tomcat7-maven-plugin</artifactId>
-          <version>2.2</version>
-          <configuration>
-            <port>8888</port>
-            <path>/</path>
-          </configuration>
-        </plugin>
 
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>

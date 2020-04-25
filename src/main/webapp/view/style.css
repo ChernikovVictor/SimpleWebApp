@@ -1,0 +1,31 @@
+body {
+  font-family: Arial, Verdana,  sans-serif; /* Семейство шрифтов */
+  font-size: 11pt; /* Размер основного шрифта в пунктах  */
+  background-color: #ccffff; /* Цвет фона веб-страницы */
+  color: #333; /* Цвет основного текста */
+}
+p {
+  text-align: justify; /* Выравнивание по ширине */
+  font-size: 24px;
+  margin-left: 60px; /* Отступ слева в пикселах */
+  margin-right: 10px; /* Отступ справа в пикселах */
+  border-left: 1px solid #999; /* Параметры линии слева */
+  border-bottom: 1px solid #999; /* Параметры линии снизу */
+  padding-left: 10px; /* Отступ от линии слева до текста  */
+  padding-bottom: 10px; /* Отступ от линии снизу до текста  */
+}
+input[type=button], input[type=submit] {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 8px 32px;
+    font-size: 16px;
+}
+input[type=text] {
+    border: 2px solid red;
+    border-radius: 4px;
+}
+table, th, td {
+    border: 1px solid black;
+    text-align: center;
+    font-size: 18px;
+}
