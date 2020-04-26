@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.ValidationException;
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,12 +32,19 @@ public class RoutesLoadServlet extends HttpServlet {
         try {
             Long pathId = Long.parseLong(req.getParameter("pathId"));
             XmlPath xmlPath = xmlPathDAO.findById(pathId).orElseThrow(NoSuchElementException::new);
+
+            if (!xmlLoaderBean.isValid(new File(xmlPath.getPath()))) {
+                throw new ValidationException("file is not valid!");
+            }
+
             List<Route> routes = xmlLoaderBean.loadFromXml(xmlPath.getPath()).orElse(new LinkedList<>());
             req.getSession().setAttribute("routes", routes);
-        } catch (NoSuchElementException | NumberFormatException e) {
-            e.printStackTrace();
-        }
+            resp.sendRedirect("/view/LoadRoutesPage.jsp");
 
-        resp.sendRedirect("/view/LoadRoutesPage.jsp");
+        } catch (NoSuchElementException | NumberFormatException | ValidationException e) {
+            e.printStackTrace();
+            req.setAttribute("message", e.getMessage());
+            req.getRequestDispatcher("/view/ErrorPage.jsp").forward(req, resp);
+        }
     }
 }

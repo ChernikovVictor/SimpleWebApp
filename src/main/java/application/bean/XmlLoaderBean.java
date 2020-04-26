@@ -4,13 +4,22 @@ import application.dao.XmlPathDAO;
 import application.exception.InsertionFailedException;
 import application.model.Route;
 import application.model.XmlPath;
+import org.xml.sax.SAXException;
 
 import javax.ejb.Stateless;
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -23,8 +32,13 @@ public class XmlLoaderBean {
 
     /* Загрузить список из файла xml */
     public Optional<List<Route>> loadFromXml(String filepath) {
+
+        File file = new File(filepath);
+        if (!isValid(file)) {
+            return Optional.empty();
+        }
+
         try {
-            File file = new File(filepath);
             JAXBContext jaxbContext = JAXBContext.newInstance(RouteListXmlDTO.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             RouteListXmlDTO dto = (RouteListXmlDTO) unmarshaller.unmarshal(file);
@@ -51,7 +65,36 @@ public class XmlLoaderBean {
         } catch (InsertionFailedException e) {
             e.printStackTrace();
         }
+    }
 
+    /* Проверить xml-файл на соответствие схеме xsd*/
+    public boolean isValid(File xmlFile) {
+        try {
+            // Поиск и создание экземпляра фабрики для языка XML Schema
+            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+
+            // Компиляция схемы
+            URL schemaLocation = new URL("http:\\\\localhost:8080\\xsd\\RouteListSchema.xsd");
+            Schema schema = schemaFactory.newSchema(schemaLocation);
+
+            // Создание валидатора для схемы
+            Validator validator = schema.newValidator();
+
+            // Разбор проверяемого документа
+            Source source = new StreamSource(xmlFile);
+
+            // Валидация документа
+            try {
+                validator.validate(source);
+                return true;
+            } catch (SAXException e) {
+                return false;
+            }
+
+        } catch (SAXException | IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /** Сохрнатиь список в файл filepath
