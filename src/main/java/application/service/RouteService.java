@@ -27,6 +27,11 @@ public class RouteService {
         routeDAO.add(route);
     }
 
+    public void addWithId(RouteDTO routeDTO) throws InsertionFailedException {
+        Route route = routeMapper.routeDtoToRoute(routeDTO);
+        routeDAO.addWithId(route);
+    }
+
     public void removeById(Long id) throws NoSuchElementException {
         routeDAO.removeById(id);
     }
@@ -46,5 +51,9 @@ public class RouteService {
 
     public List<RouteDTO> findAllByIds(List<Long> ids) throws NoSuchElementException {
         return routeMapper.routesToRouteDTOs(routeDAO.findAllByIds(ids));
+    }
+
+    public boolean contains(RouteDTO routeDTO) {
+        return routeDAO.contains(routeMapper.routeDtoToRoute(routeDTO));
     }
 }

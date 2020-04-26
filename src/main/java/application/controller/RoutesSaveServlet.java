@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.util.List;
 
 /* Сервлет, сохраняющий маршруты в файл xml */
-@WebServlet("/xmlLoader")
-public class XmlLoaderServlet extends HttpServlet {
+@WebServlet("/saveAsXml")
+public class RoutesSaveServlet extends HttpServlet {
 
     @EJB
     private XmlLoaderBean xmlLoaderBean;

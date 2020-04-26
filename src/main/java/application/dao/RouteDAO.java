@@ -120,6 +120,40 @@ public class RouteDAO {
         return findAllBySqlCommand(sqlCommand);
     }
 
+    public List<Route> findAllByIds(List<Long> ids) {
+        return ids.stream().map(this::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    public boolean contains(Route route) {
+        return this.findById(route.getId()).isPresent();
+    }
+
+    public void addWithId(Route route) throws InsertionFailedException {
+
+       String addRouteSql = "INSERT INTO routes " +
+                "(id, departure_id, destination_id, departure_time, arrival_time, transport_id) " +
+                "VALUES (?, ?, ?, ?, ? ,?);";
+
+        try (Connection connection = ConnectionManager.getConnection();
+                PreparedStatement addStatement = connection.prepareStatement(addRouteSql)) {
+
+            addStatement.setLong(1, route.getId());
+            addStatement.setLong(2, route.getDepartureId());
+            addStatement.setLong(3, route.getDestinationId());
+            addStatement.setString(4, route.getDepartureTime());
+            addStatement.setString(5, route.getArrivalTime());
+            addStatement.setLong(6, route.getTransportId());
+
+            addStatement.executeUpdate();
+        } catch (SQLException | NamingException e) {
+            e.printStackTrace();
+            throw new InsertionFailedException();
+        }
+    }
+
     private List<Route> findAllBySqlCommand(String sqlCommand) {
 
         LinkedList<Route> routes = new LinkedList<>();
@@ -143,12 +177,5 @@ public class RouteDAO {
         }
 
         return routes;
-    }
-
-    public List<Route> findAllByIds(List<Long> ids) {
-        return ids.stream().map(this::findById)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.toCollection(LinkedList::new));
     }
 }

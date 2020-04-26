@@ -20,19 +20,30 @@
     <jsp:include page="/routesTable" />
     <br>
 
-    <%-- Добавить маршрут    --%>
-    <form action="${pageContext.request.contextPath}/view/AddRoutePage.jsp">
-        <p>
-            <input type="submit" value="Добавить"/>
-        </p>
-    </form>
+    <div style="width:400px;">
 
-    <%-- Сохранить как xml-документ    --%>
-    <form action="${pageContext.request.contextPath}/xmlLoader" method="get">
-        <p>
-            <input type="submit" value="Сохранить"/>
-        </p>
-    </form>
+        <%-- Добавить маршрут    --%>
+        <div style="float: left; width: 130px">
+            <form action="${pageContext.request.contextPath}/view/AddRoutePage.jsp">
+                <p>
+                    <input type="submit" value="Добавить"/>
+                </p>
+            </form>
+        </div>
+
+        <%-- Сохранить как xml-документ    --%>
+        <div style="float: right; width: 230px">
+            <form action="${pageContext.request.contextPath}/saveAsXml" method="get">
+                <p>
+                    <input type="submit" value="Сохранить"/>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <p>
+        <a href="${pageContext.request.contextPath}/view/LoadRoutesPage.jsp">Загрузить из файла</a>
+    </p>
 
 </body>
 </html>
