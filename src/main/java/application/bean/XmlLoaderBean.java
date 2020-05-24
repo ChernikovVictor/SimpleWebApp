@@ -2,8 +2,8 @@ package application.bean;
 
 import application.dao.XmlPathDAO;
 import application.exception.InsertionFailedException;
-import application.model.Route;
-import application.model.XmlPath;
+import application.entity.Route;
+import application.entity.XmlPath;
 import org.xml.sax.SAXException;
 
 import javax.ejb.Stateless;
@@ -28,7 +28,7 @@ import java.util.Optional;
 @Stateless
 public class XmlLoaderBean {
 
-    private XmlPathDAO xmlPathDAO = new XmlPathDAO();
+    private final XmlPathDAO xmlPathDAO = new XmlPathDAO();
 
     /* Загрузить список из файла xml */
     public Optional<List<Route>> loadFromXml(String filepath) {

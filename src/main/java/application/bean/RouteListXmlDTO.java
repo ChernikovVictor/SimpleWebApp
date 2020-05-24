@@ -1,6 +1,6 @@
 package application.bean;
 
-import application.model.Route;
+import application.entity.Route;
 import lombok.AllArgsConstructor;
 
 import javax.xml.bind.annotation.*;

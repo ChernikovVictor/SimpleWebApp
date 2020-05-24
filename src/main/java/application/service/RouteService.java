@@ -1,12 +1,12 @@
 package application.service;
 
 import application.dao.RouteDAO;
-import application.dto.RouteDTO;
-import application.dto.RouteMapper;
+import application.dto.route.RouteDTO;
+import application.dto.route.RouteMapper;
 import application.exception.InsertionFailedException;
 import application.exception.NoSuchElementException;
-import application.model.Route;
-import application.model.TransportKinds;
+import application.entity.Route;
+import application.entity.TransportKinds;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -19,12 +19,12 @@ public class RouteService {
 
     public RouteDTO findById(Long id) throws NoSuchElementException {
         Route route = routeDAO.findById(id).orElseThrow(NoSuchElementException::new);
-        return routeMapper.routeToRouteDto(route).orElseThrow(NoSuchElementException::new);
+        return routeMapper.routeToRouteDto(route);
     }
 
-    public void add(RouteDTO routeDTO) throws InsertionFailedException {
+    public Long add(RouteDTO routeDTO) throws InsertionFailedException {
         Route route = routeMapper.routeDtoToRoute(routeDTO);
-        routeDAO.add(route);
+        return routeDAO.add(route);
     }
 
     public void addWithId(RouteDTO routeDTO) throws InsertionFailedException {
@@ -36,20 +36,24 @@ public class RouteService {
         routeDAO.removeById(id);
     }
 
-    public void updateById(Long id, RouteDTO routeDTO) {
+    public void update(RouteDTO routeDTO) {
         Route route = routeMapper.routeDtoToRoute(routeDTO);
-        routeDAO.updateById(id, route);
+        routeDAO.update(route);
     }
 
-    public List<RouteDTO> findAll() throws NoSuchElementException {
+    public List<RouteDTO> findAll() {
         return routeMapper.routesToRouteDTOs(routeDAO.findAll());
     }
 
-    public List<RouteDTO> findAllByTransportKind(TransportKinds kind) throws NoSuchElementException {
+    public List<RouteDTO> findAllByTransportKind(TransportKinds kind) {
         return routeMapper.routesToRouteDTOs(routeDAO.findAllByTransportKind(kind));
     }
 
-    public List<RouteDTO> findAllByIds(List<Long> ids) throws NoSuchElementException {
+    public List<RouteDTO> findAllByCityName(String cityName) {
+        return routeMapper.routesToRouteDTOs(routeDAO.findAllByCityName(cityName));
+    }
+
+    public List<RouteDTO> findAllByIds(List<Long> ids) {
         return routeMapper.routesToRouteDTOs(routeDAO.findAllByIds(ids));
     }
 

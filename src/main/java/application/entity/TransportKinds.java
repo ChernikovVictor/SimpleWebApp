@@ -1,4 +1,4 @@
-package application.model;
+package application.entity;
 
 public enum TransportKinds {
     TRAIN,

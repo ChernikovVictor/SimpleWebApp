@@ -1,7 +1,7 @@
 package application.controller;
 
-import application.dao.CityDAO;
-import application.model.City;
+import application.dto.city.CityDTO;
+import application.service.CityService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,16 +15,18 @@ import java.util.stream.Collectors;
 @WebServlet("/citiesComboBox")
 public class PrintCityListServlet extends HttpServlet {
 
+    private final CityService cityService = new CityService();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        List<City> cities = (new CityDAO()).findAll();
+        List<CityDTO> cities = cityService.findAll();
         String optionsHTML = cities.stream().map(this::cityToOptionHTML).collect(Collectors.joining());
         resp.getWriter().write(optionsHTML);
 
     }
 
-    private String cityToOptionHTML(City city) {
+    private String cityToOptionHTML(CityDTO city) {
         return String.format("<option value=\"%d\">%s %s", city.getId(), city.getName(), city.getStation());
     }
 }

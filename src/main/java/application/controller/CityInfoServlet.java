@@ -1,8 +1,8 @@
 package application.controller;
 
-import application.dao.CityDAO;
+import application.dto.city.CityDTO;
 import application.exception.NoSuchElementException;
-import application.model.City;
+import application.service.CityService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,15 +14,17 @@ import java.io.IOException;
 @WebServlet("/cityInfo")
 public class CityInfoServlet extends HttpServlet {
 
+    private final CityService cityService = new CityService();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
             Long id = Long.parseLong(req.getParameter("id"));
-            City city = (new CityDAO()).findById(id).orElseThrow(NoSuchElementException::new);
+            CityDTO cityDTO = cityService.findById(id);
             req.setAttribute("id", id);
-            req.setAttribute("name", city.getName());
-            req.setAttribute("station", city.getStation());
+            req.setAttribute("name", cityDTO.getName());
+            req.setAttribute("station", cityDTO.getStation());
         } catch (NoSuchElementException | NumberFormatException ignored) { /* Never caught */ }
 
         req.getRequestDispatcher("/view/CityInfo.jsp").forward(req, resp);

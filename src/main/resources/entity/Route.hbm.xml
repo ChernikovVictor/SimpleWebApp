@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping">
+
+<hibernate-mapping>
+    <class name="application.entity.Route" table="routes" catalog="netcracker_infosystem_db">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+
+        <many-to-one name="departure" class="application.entity.City"
+                     column="departure_id" not-null="true" lazy="false" />
+
+        <many-to-one name="destination" class="application.entity.City"
+                     column="destination_id" not-null="true" lazy="false" />
+
+        <property name="departureTime" type="string">
+            <column name="departure_time" />
+        </property>
+
+        <property name="arrivalTime" type="string">
+            <column name="arrival_time" />
+        </property>
+
+        <many-to-one name="transport" class="application.entity.Transport"
+                     column="transport_id" not-null="true" lazy="false" />
+    </class>
+
+    <query name="findAllByTransportKind">
+        <![CDATA[from Route r where r.transport.kind = :kind]]>
+    </query>
+
+    <query name="findAllByCityName">
+        <![CDATA[from Route r where r.departure.name = :cityName or r.destination.name = :cityName]]>
+    </query>
+
+</hibernate-mapping>

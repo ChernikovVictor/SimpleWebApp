@@ -1,6 +1,6 @@
 package application.controller;
 
-import application.dto.RouteDTO;
+import application.dto.route.RouteDTO;
 import application.exception.NoSuchElementException;
 import application.service.RouteService;
 

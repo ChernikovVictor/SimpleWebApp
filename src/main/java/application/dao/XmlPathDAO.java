@@ -1,8 +1,8 @@
 package application.dao;
 
 import application.exception.InsertionFailedException;
-import application.model.XmlPath;
-import application.util.ConnectionManager;
+import application.entity.XmlPath;
+import application.service.ConnectionManager;
 
 import javax.naming.NamingException;
 import java.sql.*;

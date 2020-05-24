@@ -3,8 +3,8 @@ package application.controller;
 import application.bean.XmlLoaderBean;
 import application.dao.XmlPathDAO;
 import application.exception.NoSuchElementException;
-import application.model.Route;
-import application.model.XmlPath;
+import application.entity.Route;
+import application.entity.XmlPath;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -24,7 +24,7 @@ public class RoutesLoadServlet extends HttpServlet {
     @EJB
     private XmlLoaderBean xmlLoaderBean;
 
-    private XmlPathDAO xmlPathDAO = new XmlPathDAO();
+    private final XmlPathDAO xmlPathDAO = new XmlPathDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

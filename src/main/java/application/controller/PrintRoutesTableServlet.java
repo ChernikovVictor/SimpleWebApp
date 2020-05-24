@@ -1,7 +1,6 @@
 package application.controller;
 
-import application.dto.RouteDTO;
-import application.exception.NoSuchElementException;
+import application.dto.route.RouteDTO;
 import application.service.RouteService;
 
 import javax.servlet.ServletException;
@@ -17,7 +16,7 @@ import java.util.List;
 @WebServlet("/routesTable")
 public class PrintRoutesTableServlet extends HttpServlet {
 
-    private RouteService routeService = new RouteService();
+    private final RouteService routeService = new RouteService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,13 +27,8 @@ public class PrintRoutesTableServlet extends HttpServlet {
             return;
         }
 
-        try {
-            List<RouteDTO> routeDTOs = routeService.findAllByIds((List<Long>) listId);
-            writeTable(routeDTOs, resp.getWriter());
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-        }
-
+        List<RouteDTO> routeDTOs = routeService.findAllByIds((List<Long>) listId);
+        writeTable(routeDTOs, resp.getWriter());
     }
 
     private void writeTable(List<RouteDTO> routeDTOs, PrintWriter writer) {

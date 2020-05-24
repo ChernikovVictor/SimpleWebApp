@@ -1,8 +1,8 @@
 package application.controller;
 
-import application.dto.RouteDTO;
-import application.dto.RouteMapper;
-import application.model.Route;
+import application.dto.route.RouteDTO;
+import application.dto.route.RouteMapper;
+import application.entity.Route;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,8 +18,8 @@ import application.service.RouteService;
 @WebServlet("/addRouteFromXml")
 public class RouteAddFromXmlServlet extends HttpServlet {
 
-    private RouteService routeService = new RouteService();
-    private RouteMapper routeMapper = new RouteMapper();
+    private final RouteService routeService = new RouteService();
+    private final RouteMapper routeMapper = new RouteMapper();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,7 +29,7 @@ public class RouteAddFromXmlServlet extends HttpServlet {
             Route route = routes.parallelStream().filter(r -> r.getId().equals(id))
                     .findAny().orElseThrow(NoSuchElementException::new);
 
-            RouteDTO routeDTO = routeMapper.routeToRouteDto(route).orElseThrow(NoSuchElementException::new);
+            RouteDTO routeDTO = routeMapper.routeToRouteDto(route);
             routeService.addWithId(routeDTO);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,8 +1,8 @@
 package application.controller;
 
-import application.dto.RouteDTO;
-import application.dto.RouteMapper;
-import application.model.Route;
+import application.dto.route.RouteDTO;
+import application.dto.route.RouteMapper;
+import application.entity.Route;
 import application.service.RouteService;
 
 import javax.servlet.ServletException;
@@ -18,7 +18,7 @@ import java.util.List;
 @WebServlet("/printRoutesFromXml")
 public class PrintRoutesFromXmlServlet extends HttpServlet {
 
-    private RouteService routeService = new RouteService();
+    private final RouteService routeService = new RouteService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

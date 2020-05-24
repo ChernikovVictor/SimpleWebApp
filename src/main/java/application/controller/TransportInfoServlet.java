@@ -1,8 +1,8 @@
 package application.controller;
 
-import application.dao.TransportDAO;
+import application.dto.transport.TransportDTO;
 import application.exception.NoSuchElementException;
-import application.model.Transport;
+import application.service.TransportService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,12 +14,14 @@ import java.io.IOException;
 @WebServlet("/transportInfo")
 public class TransportInfoServlet extends HttpServlet {
 
+    final TransportService transportService = new TransportService();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
             Long id = Long.parseLong(req.getParameter("id"));
-            Transport transport = (new TransportDAO()).findById(id).orElseThrow(NoSuchElementException::new);
+            TransportDTO transport = transportService.findById(id);
             req.setAttribute("id", id);
             req.setAttribute("kind", transport.getKind().name());
             req.setAttribute("name", transport.getName());

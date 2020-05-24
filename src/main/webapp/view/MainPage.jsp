@@ -8,12 +8,20 @@
 <body>
     <p>Schedule</p>
     <br>
+
+    <form action="${pageContext.request.contextPath}/findRoutesByCityName">
+        <p>
+            Поиск по городам:
+            <input type="text" name="cityName" />
+            <input type="submit" value="Поиск"/>
+        </p>
+    </form>
     <br>
 
     <p>
-        <a href="${pageContext.request.contextPath}/findRoutes?kind=all">Все маршруты</a>
-        <a href="${pageContext.request.contextPath}/findRoutes?kind=trains">Только поезда</a>
-        <a href="${pageContext.request.contextPath}/findRoutes?kind=planes">Только самолеты</a>
+        <a href="${pageContext.request.contextPath}/findRoutesByTransportKind?kind=all">Все маршруты</a>
+        <a href="${pageContext.request.contextPath}/findRoutesByTransportKind?kind=trains">Только поезда</a>
+        <a href="${pageContext.request.contextPath}/findRoutesByTransportKind?kind=planes">Только самолеты</a>
     </p>
 
     <%-- Таблица маршрутов    --%>

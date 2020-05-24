@@ -1,8 +1,7 @@
 package application.controller;
 
-import application.dto.RouteDTO;
-import application.exception.NoSuchElementException;
-import application.model.TransportKinds;
+import application.dto.route.RouteDTO;
+import application.entity.TransportKinds;
 import application.service.RouteService;
 
 import javax.servlet.ServletException;
@@ -16,8 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /* Сервлет, формирующий список айдшишников запрошенных маршрутов */
-@WebServlet("/findRoutes")
-public class RoutesFindServlet extends HttpServlet {
+@WebServlet("/findRoutesByTransportKind")
+public class RoutesFindByTransportKindServlet extends HttpServlet {
 
     private final RouteService routeService = new RouteService();
 
@@ -27,18 +26,14 @@ public class RoutesFindServlet extends HttpServlet {
         // TODO: искать только индексы, а не дтошки целиком
         List<RouteDTO> routeDTOs;
         String kind = req.getParameter("kind");
-        try {
-            if (kind == null) {
-                return;
-            } else if (kind.equals("trains")) {
-                routeDTOs = routeService.findAllByTransportKind(TransportKinds.TRAIN);
-            } else if (kind.equals("planes")) {
-                routeDTOs = routeService.findAllByTransportKind(TransportKinds.PLANE);
-            } else {
-                routeDTOs = routeService.findAll();
-            }
-        } catch (NoSuchElementException e) {
+        if (kind == null) {
             routeDTOs = new LinkedList<>();
+        } else if (kind.equals("trains")) {
+            routeDTOs = routeService.findAllByTransportKind(TransportKinds.TRAIN);
+        } else if (kind.equals("planes")) {
+            routeDTOs = routeService.findAllByTransportKind(TransportKinds.PLANE);
+        } else {
+            routeDTOs = routeService.findAll();
         }
 
         List<Long> listId = routeDTOs.stream().map(RouteDTO::getId).collect(Collectors.toCollection(LinkedList::new));

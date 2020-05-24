@@ -1,9 +1,8 @@
 package application.controller;
 
 import application.bean.XmlLoaderBean;
-import application.dto.RouteDTO;
-import application.dto.RouteMapper;
-import application.exception.NoSuchElementException;
+import application.dto.route.RouteDTO;
+import application.dto.route.RouteMapper;
 import application.service.RouteService;
 
 import javax.ejb.EJB;
@@ -22,7 +21,7 @@ public class RoutesSaveServlet extends HttpServlet {
     @EJB
     private XmlLoaderBean xmlLoaderBean;
 
-    private RouteService routeService = new RouteService();
+    private final RouteService routeService = new RouteService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,13 +33,7 @@ public class RoutesSaveServlet extends HttpServlet {
         }
 
         /* Получить маршруты */
-        List<RouteDTO> routeDTOs;
-        try {
-            routeDTOs = routeService.findAllByIds((List<Long>) listId);
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-            return;
-        }
+        List<RouteDTO> routeDTOs = routeService.findAllByIds((List<Long>) listId);
 
         /* Сохранить маршруты */
         RouteMapper mapper = new RouteMapper();

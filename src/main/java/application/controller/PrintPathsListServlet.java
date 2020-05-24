@@ -1,7 +1,7 @@
 package application.controller;
 
 import application.dao.XmlPathDAO;
-import application.model.XmlPath;
+import application.entity.XmlPath;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

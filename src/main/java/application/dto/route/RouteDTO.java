@@ -1,7 +1,7 @@
-package application.dto;
+package application.dto.route;
 
-import application.model.City;
-import application.model.Transport;
+import application.entity.City;
+import application.entity.Transport;
 import lombok.Builder;
 import lombok.Data;
 
