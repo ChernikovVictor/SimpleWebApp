@@ -23,6 +23,7 @@ public class RouteInfoServlet extends HttpServlet {
             Long id = Long.parseLong(req.getParameter("id"));
             RouteDTO routeDTO = routeService.findById(id);
             req.setAttribute("id", id);
+            req.setAttribute("index", routeDTO.getIndex());
             req.setAttribute("departure", routeDTO.getDeparture());
             req.setAttribute("destination", routeDTO.getDestination());
             req.setAttribute("departure_time", routeDTO.getDepartureTime());

@@ -2,18 +2,14 @@ package application.entity;
 
 import lombok.*;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//@XmlRootElement
-//@XmlType(propOrder = {"id", "departureId", "destinationId", "departureTime", "arrivalTime", "transportId" })
 public class Route {
 
     private Long id;
+    private Integer index;
     private City departure;
     private City destination;
     private String departureTime;

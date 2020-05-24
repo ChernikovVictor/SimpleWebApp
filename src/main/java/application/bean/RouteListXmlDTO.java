@@ -1,6 +1,8 @@
 package application.bean;
 
-import application.entity.Route;
+import application.dto.route.RouteDTO;
+import application.entity.City;
+import application.entity.Transport;
 import lombok.AllArgsConstructor;
 
 import javax.xml.bind.annotation.*;
@@ -10,10 +12,10 @@ import java.util.List;
 /* Класс-DTO для сохранения списка маршрутов в XML файл */
 @AllArgsConstructor
 @XmlRootElement
-@XmlSeeAlso(Route.class)
+@XmlSeeAlso({RouteDTO.class, Transport.class, City.class})
 public class RouteListXmlDTO {
 
-    private List<Route> routes;
+    private List<RouteDTO> routes;
 
     public RouteListXmlDTO() {
         routes = new LinkedList<>();
@@ -21,9 +23,9 @@ public class RouteListXmlDTO {
 
     @XmlElementWrapper(name = "routes")
     @XmlElements({
-            @XmlElement(name = "route", type = Route.class)
+            @XmlElement(name = "route", type = RouteDTO.class)
     })
-    public List<Route> getRoutes() {
+    public List<RouteDTO> getRoutes() {
         return routes;
     }
 }

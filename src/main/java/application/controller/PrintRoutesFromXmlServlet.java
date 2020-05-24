@@ -1,8 +1,6 @@
 package application.controller;
 
 import application.dto.route.RouteDTO;
-import application.dto.route.RouteMapper;
-import application.entity.Route;
 import application.service.RouteService;
 
 import javax.servlet.ServletException;
@@ -23,10 +21,8 @@ public class PrintRoutesFromXmlServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            List<Route> routes = (List<Route>) req.getSession().getAttribute("routes");
-            RouteMapper routeMapper = new RouteMapper();
-            List<RouteDTO> routeDTOs = routeMapper.routesToRouteDTOs(routes);
-            writeTable(routeDTOs, resp.getWriter());
+            List<RouteDTO> routes = (List<RouteDTO>) req.getSession().getAttribute("routes");
+            writeTable(routes, resp.getWriter());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,7 +37,7 @@ public class PrintRoutesFromXmlServlet extends HttpServlet {
 
     private void writeHeader(PrintWriter writer) {
         writer.write("<tr>\n" +
-                "<th>id</th>\n" +
+                "<th>index</th>\n" +
                 "<th>departure</th>\n" +
                 "<th>destination</th>\n" +
                 "<th>departure_time</th>\n" +
@@ -54,7 +50,7 @@ public class PrintRoutesFromXmlServlet extends HttpServlet {
     private void writeRows(List<RouteDTO> routeDTOs, PrintWriter writer) {
         routeDTOs.forEach(routeDTO -> {
             writer.write("<tr>\n");
-            String row = cell(routeDTO.getId().toString()) +
+            String row = cell(routeDTO.getIndex().toString()) +
                     cell(routeDTO.getDeparture().getName()) +
                     cell(routeDTO.getDestination().getName()) +
                     cell(routeDTO.getDepartureTime()) +

@@ -47,6 +47,7 @@ public class RouteAddServlet extends HttpServlet {
         Transport transport = (new TransportDAO()).findById(transportId).orElseThrow(NoSuchElementException::new);
 
         return RouteDTO.builder()
+                .index(Integer.parseInt(req.getParameter("index")))
                 .departure(departure)
                 .destination(destination)
                 .departureTime(req.getParameter("departure_time"))

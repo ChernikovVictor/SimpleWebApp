@@ -40,7 +40,7 @@ public class PrintRoutesTableServlet extends HttpServlet {
 
     private void writeHeader(PrintWriter writer) {
         writer.write("<tr>\n" +
-                "<th>id</th>\n" +
+                "<th>index</th>\n" +
                 "<th>departure</th>\n" +
                 "<th>destination</th>\n" +
                 "<th>departure_time</th>\n" +
@@ -54,7 +54,7 @@ public class PrintRoutesTableServlet extends HttpServlet {
         routeDTOs.forEach(routeDTO -> {
             writer.write("<tr>\n");
             String id = routeDTO.getId().toString();
-            String row = cell("<a href=\"/routeInfo?id=" + id + "\">" + id + "</a>") +
+            String row = cell("<a href=\"/routeInfo?id=" + id + "\">" + routeDTO.getIndex() + "</a>") +
                     cell("<a href=\"/cityInfo?id=" + routeDTO.getDeparture().getId() + "\">" + routeDTO.getDeparture().getName() + "</a>") +
                     cell("<a href=\"/cityInfo?id=" + routeDTO.getDestination().getId() + "\">" + routeDTO.getDestination().getName() + "</a>") +
                     cell(routeDTO.getDepartureTime()) +

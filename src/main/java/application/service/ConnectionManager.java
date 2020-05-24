@@ -11,13 +11,6 @@ import java.sql.SQLException;
 
 public class ConnectionManager {
 
-    public static Connection getConnection() throws SQLException, NamingException {
-
-        InitialContext initialContext = new InitialContext();
-        DataSource ds = (DataSource) initialContext.lookup("java:comp/env/jdbc/myDataSource");
-        return ds.getConnection();
-    }
-
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
     private static SessionFactory buildSessionFactory() {
@@ -31,8 +24,16 @@ public class ConnectionManager {
         }
     }
 
+    /* hibernate */
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 
+    /* clear JDBC */
+    public static Connection getConnection() throws SQLException, NamingException {
+
+        InitialContext initialContext = new InitialContext();
+        DataSource ds = (DataSource) initialContext.lookup("java:comp/env/jdbc/myDataSource");
+        return ds.getConnection();
+    }
 }

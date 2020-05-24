@@ -2,7 +2,6 @@ package application.controller;
 
 import application.bean.XmlLoaderBean;
 import application.dto.route.RouteDTO;
-import application.dto.route.RouteMapper;
 import application.service.RouteService;
 
 import javax.ejb.EJB;
@@ -36,8 +35,7 @@ public class RoutesSaveServlet extends HttpServlet {
         List<RouteDTO> routeDTOs = routeService.findAllByIds((List<Long>) listId);
 
         /* Сохранить маршруты */
-        RouteMapper mapper = new RouteMapper();
-        xmlLoaderBean.saveAsXml(mapper.routesDTOsToRoutes(routeDTOs));
+        xmlLoaderBean.saveAsXml(routeDTOs);
 
         resp.sendRedirect("view/MainPage.jsp");
     }

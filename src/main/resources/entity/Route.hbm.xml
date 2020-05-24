@@ -9,6 +9,10 @@
             <generator class="identity" />
         </id>
 
+        <property name="index" type="java.lang.Integer">
+            <column name="number" />
+        </property>
+
         <many-to-one name="departure" class="application.entity.City"
                      column="departure_id" not-null="true" lazy="false" />
 
@@ -33,6 +37,10 @@
 
     <query name="findAllByCityName">
         <![CDATA[from Route r where r.departure.name = :cityName or r.destination.name = :cityName]]>
+    </query>
+
+    <query name="findByIndex">
+        <![CDATA[from Route r where r.index = :index]]>
     </query>
 
 </hibernate-mapping>

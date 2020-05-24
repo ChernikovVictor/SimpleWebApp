@@ -2,8 +2,8 @@ package application.controller;
 
 import application.bean.XmlLoaderBean;
 import application.dao.XmlPathDAO;
+import application.dto.route.RouteDTO;
 import application.exception.NoSuchElementException;
-import application.entity.Route;
 import application.entity.XmlPath;
 
 import javax.ejb.EJB;
@@ -37,7 +37,7 @@ public class RoutesLoadServlet extends HttpServlet {
                 throw new ValidationException("file is not valid!");
             }
 
-            List<Route> routes = xmlLoaderBean.loadFromXml(xmlPath.getPath()).orElse(new LinkedList<>());
+            List<RouteDTO> routes = xmlLoaderBean.loadFromXml(xmlPath.getPath()).orElse(new LinkedList<>());
             req.getSession().setAttribute("routes", routes);
             resp.sendRedirect("/view/LoadRoutesPage.jsp");
 

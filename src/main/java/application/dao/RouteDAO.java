@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import javax.persistence.NoResultException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -89,7 +90,13 @@ public class RouteDAO {
     }
 
     public boolean contains(Route route) {
-        return this.findById(route.getId()).isPresent();
+        try (Session session = ConnectionManager.getSessionFactory().openSession()) {
+            Query<Route> query = session.getNamedQuery("findByIndex").setParameter("index", route.getIndex());
+            query.getSingleResult();
+            return true;
+        } catch (NoResultException e) {
+            return false;
+        }
     }
 
     public List<Route> findAllByCityName(String cityName) {
@@ -100,28 +107,5 @@ public class RouteDAO {
             e.printStackTrace();
             return new LinkedList<>();
         }
-    }
-
-    public void addWithId(Route route) throws InsertionFailedException {
-
-//       String addRouteSql = "INSERT INTO routes " +
-//                "(id, departure_id, destination_id, departure_time, arrival_time, transport_id) " +
-//                "VALUES (?, ?, ?, ?, ? ,?);";
-//
-//        try (Connection connection = ConnectionManager.getConnection();
-//                PreparedStatement addStatement = connection.prepareStatement(addRouteSql)) {
-//
-//            addStatement.setLong(1, route.getId());
-//            addStatement.setLong(2, route.getDepartureId());
-//            addStatement.setLong(3, route.getDestinationId());
-//            addStatement.setString(4, route.getDepartureTime());
-//            addStatement.setString(5, route.getArrivalTime());
-//            addStatement.setLong(6, route.getTransportId());
-//
-//            addStatement.executeUpdate();
-//        } catch (SQLException | NamingException e) {
-//            e.printStackTrace();
-//            throw new InsertionFailedException();
-//        }
     }
 }

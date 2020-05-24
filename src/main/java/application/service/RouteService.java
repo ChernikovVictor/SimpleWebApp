@@ -27,11 +27,6 @@ public class RouteService {
         return routeDAO.add(route);
     }
 
-    public void addWithId(RouteDTO routeDTO) throws InsertionFailedException {
-        Route route = routeMapper.routeDtoToRoute(routeDTO);
-        routeDAO.addWithId(route);
-    }
-
     public void removeById(Long id) throws NoSuchElementException {
         routeDAO.removeById(id);
     }

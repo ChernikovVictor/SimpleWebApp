@@ -11,6 +11,7 @@ public class RouteMapper {
     public RouteDTO routeToRouteDto (Route route) {
         return RouteDTO.builder()
                 .id(route.getId())
+                .index(route.getIndex())
                 .departure(route.getDeparture())
                 .destination(route.getDestination())
                 .departureTime(route.getDepartureTime())
@@ -22,6 +23,7 @@ public class RouteMapper {
     public Route routeDtoToRoute(RouteDTO routeDTO) {
         return Route.builder()
                 .id(routeDTO.getId())
+                .index(routeDTO.getIndex())
                 .departure(routeDTO.getDeparture())
                 .destination(routeDTO.getDestination())
                 .departureTime(routeDTO.getDepartureTime())

@@ -8,7 +8,11 @@
 <body>
 
     <form action="${pageContext.request.contextPath}/routeUpdate?id=${requestScope.id}" method="post">
-        <p>${requestScope.id}</p>
+        <p>
+            Номер:
+            <input type="text" name="index" value="${requestScope.index}"/>
+        </p>
+
         <p>
             Откуда: ${requestScope.departure.name} ${requestScope.departure.station}
             <select name="departure">

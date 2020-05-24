@@ -11,6 +11,11 @@
     <b>Введите информацию о рейсе</b><br>
 
     <p>
+        Номер:
+        <input type="text" name="index" />
+    </p>
+
+    <p>
         Откуда:
         <select name="departure">
             <jsp:include page="/citiesComboBox" />

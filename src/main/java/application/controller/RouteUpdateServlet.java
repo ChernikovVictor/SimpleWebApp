@@ -46,6 +46,7 @@ public class RouteUpdateServlet extends HttpServlet {
 
         return RouteDTO.builder()
                 .id(Long.parseLong(req.getParameter("id")))
+                .index(Integer.parseInt(req.getParameter("index")))
                 .departure(departure)
                 .destination(destination)
                 .departureTime(req.getParameter("newDepartureTime"))

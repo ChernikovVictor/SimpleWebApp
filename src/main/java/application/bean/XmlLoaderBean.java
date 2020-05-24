@@ -1,8 +1,8 @@
 package application.bean;
 
 import application.dao.XmlPathDAO;
+import application.dto.route.RouteDTO;
 import application.exception.InsertionFailedException;
-import application.entity.Route;
 import application.entity.XmlPath;
 import org.xml.sax.SAXException;
 
@@ -31,7 +31,7 @@ public class XmlLoaderBean {
     private final XmlPathDAO xmlPathDAO = new XmlPathDAO();
 
     /* Загрузить список из файла xml */
-    public Optional<List<Route>> loadFromXml(String filepath) {
+    public Optional<List<RouteDTO>> loadFromXml(String filepath) {
 
         File file = new File(filepath);
         if (!isValid(file)) {
@@ -50,7 +50,7 @@ public class XmlLoaderBean {
     }
 
     /* Сохранить список в файл xml */
-    public void saveAsXml(List<Route> routes) {
+    public void saveAsXml(List<RouteDTO> routes) {
 
         String filepath = createFilepath();
         boolean successfully = saveRoutes(routes, filepath);
@@ -99,7 +99,7 @@ public class XmlLoaderBean {
 
     /** Сохрнатиь список в файл filepath
      *   @return true, если сохранение прошло успешно */
-    private boolean saveRoutes(List<Route> routes, String filepath) {
+    private boolean saveRoutes(List<RouteDTO> routes, String filepath) {
         try {
             RouteListXmlDTO dto = new RouteListXmlDTO(routes);
             JAXBContext context = JAXBContext.newInstance(RouteListXmlDTO.class);

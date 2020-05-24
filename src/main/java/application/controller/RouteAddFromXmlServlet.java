@@ -1,8 +1,6 @@
 package application.controller;
 
 import application.dto.route.RouteDTO;
-import application.dto.route.RouteMapper;
-import application.entity.Route;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,18 +17,16 @@ import application.service.RouteService;
 public class RouteAddFromXmlServlet extends HttpServlet {
 
     private final RouteService routeService = new RouteService();
-    private final RouteMapper routeMapper = new RouteMapper();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             Long id = Long.parseLong(req.getParameter("id"));
-            List<Route> routes = (List<Route>) req.getSession().getAttribute("routes");
-            Route route = routes.parallelStream().filter(r -> r.getId().equals(id))
+            List<RouteDTO> routes = (List<RouteDTO>) req.getSession().getAttribute("routes");
+            RouteDTO routeDTO = routes.parallelStream().filter(r -> r.getId().equals(id))
                     .findAny().orElseThrow(NoSuchElementException::new);
 
-            RouteDTO routeDTO = routeMapper.routeToRouteDto(route);
-            routeService.addWithId(routeDTO);
+            routeService.add(routeDTO);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -14,11 +14,43 @@
                                 <xs:complexType>
                                     <xs:sequence>
                                         <xs:element name="id" type="xs:unsignedLong" />
-                                        <xs:element name="departureId" type="xs:unsignedLong" />
-                                        <xs:element name="destinationId" type="xs:unsignedLong" />
+                                        <xs:element name="index" type="xs:integer" />
+
+                                        <xs:element name="departure">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="id" type="xs:unsignedLong" />
+                                                    <xs:element name="name" type="xs:string" />
+                                                    <xs:element name="station" type="xs:string" />
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+
+                                        <xs:element name="destination">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="id" type="xs:unsignedLong" />
+                                                    <xs:element name="name" type="xs:string" />
+                                                    <xs:element name="station" type="xs:string" />
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+
+
                                         <xs:element name="departureTime" type="xs:string" />
                                         <xs:element name="arrivalTime" type="xs:string" />
-                                        <xs:element name="transportId" type="xs:unsignedLong" />
+
+                                        <xs:element name="transport">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="id" type="xs:unsignedLong" />
+                                                    <xs:element name="kind" type="xs:string" />
+                                                    <xs:element name="name" type="xs:string" />
+                                                    <xs:element name="capacity" type="xs:long" />
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
