@@ -28,7 +28,7 @@
     <jsp:include page="/routesTable" />
     <br>
 
-    <div style="width:400px;">
+    <div style="width:800px;">
 
         <%-- Добавить маршрут    --%>
         <div style="float: left; width: 130px">
@@ -40,10 +40,11 @@
         </div>
 
         <%-- Сохранить как xml-документ    --%>
-        <div style="float: right; width: 230px">
+        <div style="float: right; width: 630px">
             <form action="${pageContext.request.contextPath}/saveAsXml" method="get">
                 <p>
-                    <input type="submit" value="Сохранить"/>
+                    <input type="submit" value="Сохранить как..." />
+                    <input type="text" name="filepath" value="C:\XML_STORAGE\" />
                 </p>
             </form>
         </div>

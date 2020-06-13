@@ -1,9 +1,6 @@
 package application.bean;
 
-import application.dao.XmlPathDAO;
 import application.dto.route.RouteDTO;
-import application.exception.InsertionFailedException;
-import application.entity.XmlPath;
 import org.xml.sax.SAXException;
 
 import javax.ejb.Stateless;
@@ -19,8 +16,8 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,20 +25,12 @@ import java.util.Optional;
 @Stateless
 public class XmlLoaderBean {
 
-    private final XmlPathDAO xmlPathDAO = new XmlPathDAO();
-
     /* Загрузить список из файла xml */
-    public Optional<List<RouteDTO>> loadFromXml(String filepath) {
-
-        File file = new File(filepath);
-        if (!isValid(file)) {
-            return Optional.empty();
-        }
-
+    public Optional<List<RouteDTO>> loadFromXml(InputStream inputStream) {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(RouteListXmlDTO.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            RouteListXmlDTO dto = (RouteListXmlDTO) unmarshaller.unmarshal(file);
+            RouteListXmlDTO dto = (RouteListXmlDTO) unmarshaller.unmarshal(inputStream);
             return Optional.ofNullable(dto.getRoutes());
         } catch (JAXBException e) {
             e.printStackTrace();
@@ -50,25 +39,20 @@ public class XmlLoaderBean {
     }
 
     /* Сохранить список в файл xml */
-    public void saveAsXml(List<RouteDTO> routes) {
-
-        String filepath = createFilepath();
-        boolean successfully = saveRoutes(routes, filepath);
-
-        if (!successfully) {
-            return;
-        }
-
-        /* Добавить информацию о файле в БД */
+    public void saveAsXml(List<RouteDTO> routes, String filepath) {
         try {
-            xmlPathDAO.add(XmlPath.builder().path(filepath).build());
-        } catch (InsertionFailedException e) {
+            RouteListXmlDTO dto = new RouteListXmlDTO(routes);
+            JAXBContext context = JAXBContext.newInstance(RouteListXmlDTO.class);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.marshal(dto, new File(filepath));
+        } catch (JAXBException e) {
             e.printStackTrace();
         }
     }
 
-    /* Проверить xml-файл на соответствие схеме xsd*/
-    public boolean isValid(File xmlFile) {
+    /* Проверить xml-файл на соответствие схеме xsd */
+    public boolean isValid(InputStream inputStream) {
         try {
             // Поиск и создание экземпляра фабрики для языка XML Schema
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -81,42 +65,15 @@ public class XmlLoaderBean {
             Validator validator = schema.newValidator();
 
             // Разбор проверяемого документа
-            Source source = new StreamSource(xmlFile);
+            Source source = new StreamSource(inputStream);
 
             // Валидация документа
-            try {
-                validator.validate(source);
-                return true;
-            } catch (SAXException e) {
-                return false;
-            }
+            validator.validate(source);
+            return true;
 
         } catch (SAXException | IOException e) {
             e.printStackTrace();
             return false;
         }
-    }
-
-    /** Сохрнатиь список в файл filepath
-     *   @return true, если сохранение прошло успешно */
-    private boolean saveRoutes(List<RouteDTO> routes, String filepath) {
-        try {
-            RouteListXmlDTO dto = new RouteListXmlDTO(routes);
-            JAXBContext context = JAXBContext.newInstance(RouteListXmlDTO.class);
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.marshal(dto, new File(filepath));
-        } catch (JAXBException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
-    }
-
-    /* Получить путь для файла */
-    private String createFilepath() {
-        String currentDateAndTime = LocalDateTime.now().toString().replace(":", "-");
-        return String.format("C:\\XML_STORAGE\\%s.xml", currentDateAndTime);
     }
 }

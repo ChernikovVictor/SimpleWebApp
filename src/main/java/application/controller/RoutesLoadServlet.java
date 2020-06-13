@@ -1,49 +1,36 @@
 package application.controller;
 
 import application.bean.XmlLoaderBean;
-import application.dao.XmlPathDAO;
 import application.dto.route.RouteDTO;
-import application.exception.NoSuchElementException;
-import application.entity.XmlPath;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.ValidationException;
-import java.io.File;
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 @WebServlet("/loadRoutesFromXml")
+@MultipartConfig
 public class RoutesLoadServlet extends HttpServlet {
 
     @EJB
     private XmlLoaderBean xmlLoaderBean;
 
-    private final XmlPathDAO xmlPathDAO = new XmlPathDAO();
-
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        try {
-            Long pathId = Long.parseLong(req.getParameter("pathId"));
-            XmlPath xmlPath = xmlPathDAO.findById(pathId).orElseThrow(NoSuchElementException::new);
-
-            if (!xmlLoaderBean.isValid(new File(xmlPath.getPath()))) {
-                throw new ValidationException("file is not valid!");
-            }
-
-            List<RouteDTO> routes = xmlLoaderBean.loadFromXml(xmlPath.getPath()).orElse(new LinkedList<>());
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Part filePart = req.getPart("file"); // Retrieves <input type="file" name="file">
+        if (xmlLoaderBean.isValid(filePart.getInputStream())) {
+            List<RouteDTO> routes = xmlLoaderBean.loadFromXml(filePart.getInputStream()).orElse(new LinkedList<>());
             req.getSession().setAttribute("routes", routes);
             resp.sendRedirect("/view/LoadRoutesPage.jsp");
-
-        } catch (NoSuchElementException | NumberFormatException | ValidationException e) {
-            e.printStackTrace();
-            req.setAttribute("message", e.getMessage());
+        } else {
+            req.setAttribute("message", "File is not valid");
             req.getRequestDispatcher("/view/ErrorPage.jsp").forward(req, resp);
         }
     }

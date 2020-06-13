@@ -7,13 +7,11 @@
 
 <body>
 
-    <form action="${pageContext.request.contextPath}/loadRoutesFromXml" method="get">
+    <form action="${pageContext.request.contextPath}/loadRoutesFromXml" method="post" enctype="multipart/form-data">
         <p>
             Файл:
-            <select name="pathId">
-                <jsp:include page="/pathsComboBox" />
-            </select>
-            <input type="submit" value="Загрузить">
+            <input type="file" name="file" />
+            <input type="submit" value="Загрузить" />
         </p>
     </form>
 

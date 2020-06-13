@@ -29,9 +29,8 @@ public class ConnectionManager {
         return sessionFactory;
     }
 
-    /* clear JDBC */
+    /* JDBC + JNDI */
     public static Connection getConnection() throws SQLException, NamingException {
-
         InitialContext initialContext = new InitialContext();
         DataSource ds = (DataSource) initialContext.lookup("java:comp/env/jdbc/myDataSource");
         return ds.getConnection();

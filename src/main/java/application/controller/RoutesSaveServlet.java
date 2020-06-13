@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 /* Сервлет, сохраняющий маршруты в файл xml */
 @WebServlet("/saveAsXml")
@@ -27,15 +28,12 @@ public class RoutesSaveServlet extends HttpServlet {
 
         /* Получить айдишники сохраняемых маршрутов */
         Object listId = req.getSession().getAttribute("listId");
-        if (listId == null) {
-            return;
+        String filepath = req.getParameter("filepath");
+
+        if (Objects.nonNull(listId) && Objects.nonNull(filepath)) {
+            List<RouteDTO> routeDTOs = routeService.findAllByIds((List<Long>) listId);
+            xmlLoaderBean.saveAsXml(routeDTOs, filepath);
         }
-
-        /* Получить маршруты */
-        List<RouteDTO> routeDTOs = routeService.findAllByIds((List<Long>) listId);
-
-        /* Сохранить маршруты */
-        xmlLoaderBean.saveAsXml(routeDTOs);
 
         resp.sendRedirect("view/MainPage.jsp");
     }
