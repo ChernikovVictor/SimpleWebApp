@@ -1,32 +1,23 @@
 package application.dto.city;
 
 import application.entity.City;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CityMapper {
+@Mapper
+public interface CityMapper {
 
-    public CityDTO cityToCityDto(City city) {
-        return CityDTO.builder()
-                .id(city.getId())
-                .name(city.getName())
-                .station(city.getStation())
-                .routes(city.getRoutes())
-                .build();
-    }
+    CityMapper INSTANCE = Mappers.getMapper(CityMapper.class);
 
-    public City cityDtoToCity(CityDTO cityDTO) {
-        return City.builder()
-                .id(cityDTO.getId())
-                .name(cityDTO.getName())
-                .station(cityDTO.getStation())
-                .routes(cityDTO.getRoutes())
-                .build();
-    }
+    CityDTO cityToCityDto(City city);
 
-    public List<CityDTO> citiesToCityDTOs(List<City> cities) {
+    City cityDtoToCity(CityDTO cityDTO);
+
+    default List<CityDTO> citiesToCityDTOs(List<City> cities) {
         return cities.stream()
                 .map(this::cityToCityDto)
                 .collect(Collectors.toCollection(LinkedList::new));

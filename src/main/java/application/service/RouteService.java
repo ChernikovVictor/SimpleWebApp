@@ -14,16 +14,15 @@ import java.util.List;
 @NoArgsConstructor
 public class RouteService {
 
-    private final RouteMapper routeMapper = new RouteMapper();
     private final RouteDAO routeDAO = new RouteDAO();
 
     public RouteDTO findById(Long id) throws NoSuchElementException {
         Route route = routeDAO.findById(id).orElseThrow(NoSuchElementException::new);
-        return routeMapper.routeToRouteDto(route);
+        return RouteMapper.INSTANCE.routeToRouteDto(route);
     }
 
     public Long add(RouteDTO routeDTO) throws InsertionFailedException {
-        Route route = routeMapper.routeDtoToRoute(routeDTO);
+        Route route = RouteMapper.INSTANCE.routeDtoToRoute(routeDTO);
         return routeDAO.add(route);
     }
 
@@ -32,27 +31,27 @@ public class RouteService {
     }
 
     public void update(RouteDTO routeDTO) {
-        Route route = routeMapper.routeDtoToRoute(routeDTO);
+        Route route = RouteMapper.INSTANCE.routeDtoToRoute(routeDTO);
         routeDAO.update(route);
     }
 
     public List<RouteDTO> findAll() {
-        return routeMapper.routesToRouteDTOs(routeDAO.findAll());
+        return RouteMapper.INSTANCE.routesToRouteDTOs(routeDAO.findAll());
     }
 
     public List<RouteDTO> findAllByTransportKind(TransportKinds kind) {
-        return routeMapper.routesToRouteDTOs(routeDAO.findAllByTransportKind(kind));
+        return RouteMapper.INSTANCE.routesToRouteDTOs(routeDAO.findAllByTransportKind(kind));
     }
 
     public List<RouteDTO> findAllByCityName(String cityName) {
-        return routeMapper.routesToRouteDTOs(routeDAO.findAllByCityName(cityName));
+        return RouteMapper.INSTANCE.routesToRouteDTOs(routeDAO.findAllByCityName(cityName));
     }
 
     public List<RouteDTO> findAllByIds(List<Long> ids) {
-        return routeMapper.routesToRouteDTOs(routeDAO.findAllByIds(ids));
+        return RouteMapper.INSTANCE.routesToRouteDTOs(routeDAO.findAllByIds(ids));
     }
 
     public boolean contains(RouteDTO routeDTO) {
-        return routeDAO.contains(routeMapper.routeDtoToRoute(routeDTO));
+        return routeDAO.contains(RouteMapper.INSTANCE.routeDtoToRoute(routeDTO));
     }
 }

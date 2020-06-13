@@ -24,7 +24,7 @@
             <column name="capacity"/>
         </property>
 
-        <set name="routes" cascade="all">
+        <set name="routes" cascade="all" lazy="false">
             <key column="id" />
             <one-to-many class="application.entity.Route" />
         </set>

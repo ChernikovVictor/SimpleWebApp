@@ -14,7 +14,7 @@
         <property name="station" type="java.lang.String">
             <column name="station" not-null="true" />
         </property>
-        <set name="routes" cascade="all">
+        <set name="routes" cascade="all" lazy="false">
             <key column="id" />
             <one-to-many class="application.entity.Route" />
         </set>

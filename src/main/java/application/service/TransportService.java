@@ -11,14 +11,13 @@ import java.util.List;
 public class TransportService {
 
     private final TransportDAO transportDAO = new TransportDAO();
-    private final TransportMapper transportMapper = new TransportMapper();
 
     public TransportDTO findById(Long id) throws NoSuchElementException {
         Transport transport = transportDAO.findById(id).orElseThrow(NoSuchElementException::new);
-        return transportMapper.transportToTransportDto(transport);
+        return TransportMapper.INSTANCE.transportToTransportDto(transport);
     }
 
     public List<TransportDTO> findAll() {
-        return transportMapper.transportsToTransportDTOs(transportDAO.findAll());
+        return TransportMapper.INSTANCE.transportsToTransportDTOs(transportDAO.findAll());
     }
 }
