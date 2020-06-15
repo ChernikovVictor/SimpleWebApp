@@ -6,11 +6,15 @@ import application.dto.transport.TransportMapper;
 import application.entity.Transport;
 import application.exception.NoSuchElementException;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import java.util.List;
 
+@Stateless
 public class TransportService {
 
-    private final TransportDAO transportDAO = new TransportDAO();
+    @EJB
+    private TransportDAO transportDAO;
 
     public TransportDTO findById(Long id) throws NoSuchElementException {
         Transport transport = transportDAO.findById(id).orElseThrow(NoSuchElementException::new);

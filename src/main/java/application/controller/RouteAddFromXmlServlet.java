@@ -2,6 +2,7 @@ package application.controller;
 
 import application.dto.route.RouteDTO;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,11 +13,12 @@ import java.util.List;
 import application.exception.NoSuchElementException;
 import application.service.RouteService;
 
-/* Сервлет вставляет выбранный пользователем маршрут из xml-файла в базу данных */
+/* Сервлет добавляет выбранный пользователем маршрут из xml-файла в базу данных */
 @WebServlet("/addRouteFromXml")
 public class RouteAddFromXmlServlet extends HttpServlet {
 
-    private final RouteService routeService = new RouteService();
+    @EJB
+    private RouteService routeService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

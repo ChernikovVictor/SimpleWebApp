@@ -15,7 +15,7 @@
         </p>
     </form>
 
-    <jsp:include page="/printRoutesFromXml" />
+    <jsp:include page="${pageContext.request.contextPath}/printRoutesFromXml" />
 
     <form action="${pageContext.request.contextPath}/view/MainPage.jsp">
         <p>

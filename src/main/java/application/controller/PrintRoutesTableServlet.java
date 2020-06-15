@@ -3,6 +3,7 @@ package application.controller;
 import application.dto.route.RouteDTO;
 import application.service.RouteService;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,24 +12,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Objects;
 
 /* Сервлет, отображающий запрошенные маршруты в html-таблицу */
 @WebServlet("/routesTable")
 public class PrintRoutesTableServlet extends HttpServlet {
 
-    private final RouteService routeService = new RouteService();
+    @EJB
+    private RouteService routeService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         // айдишники запрошенных маршрутов
         Object listId = req.getSession().getAttribute("listId");
-        if (listId == null) {
-            return;
+        if (Objects.nonNull(listId) && listId instanceof List<?>) {
+            List<RouteDTO> routeDTOs = routeService.findAllByIds((List<Long>) listId);
+            writeTable(routeDTOs, resp.getWriter());
         }
-
-        List<RouteDTO> routeDTOs = routeService.findAllByIds((List<Long>) listId);
-        writeTable(routeDTOs, resp.getWriter());
     }
 
     private void writeTable(List<RouteDTO> routeDTOs, PrintWriter writer) {

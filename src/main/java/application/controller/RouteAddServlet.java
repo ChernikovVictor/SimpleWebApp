@@ -9,6 +9,7 @@ import application.exception.InsertionFailedException;
 import application.exception.NoSuchElementException;
 import application.service.RouteService;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +21,8 @@ import java.util.List;
 @WebServlet("/addRoute")
 public class RouteAddServlet extends HttpServlet {
 
-    private final RouteService routeService = new RouteService();
+    @EJB
+    private RouteService routeService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

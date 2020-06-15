@@ -3,6 +3,7 @@ package application.controller;
 import application.dto.route.RouteDTO;
 import application.service.RouteService;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,20 +12,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Objects;
 
 /* Сервлет выводит данные из xml-файла в форме html-таблицы */
 @WebServlet("/printRoutesFromXml")
 public class PrintRoutesFromXmlServlet extends HttpServlet {
 
-    private final RouteService routeService = new RouteService();
+    @EJB
+    private RouteService routeService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            List<RouteDTO> routes = (List<RouteDTO>) req.getSession().getAttribute("routes");
-            writeTable(routes, resp.getWriter());
-        } catch (Exception e) {
-            e.printStackTrace();
+        Object routes = req.getSession().getAttribute("routes");
+        if (Objects.nonNull(routes) && routes instanceof List<?>) {
+            writeTable((List<RouteDTO>) routes, resp.getWriter());
         }
     }
 

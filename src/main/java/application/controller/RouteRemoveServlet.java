@@ -3,6 +3,7 @@ package application.controller;
 import application.exception.NoSuchElementException;
 import application.service.RouteService;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +15,8 @@ import java.util.List;
 @WebServlet("/removeRoute")
 public class RouteRemoveServlet extends HttpServlet {
 
-    private final RouteService routeService = new RouteService();
+    @EJB
+    private RouteService routeService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,7 +26,7 @@ public class RouteRemoveServlet extends HttpServlet {
             routeService.removeById(id);
             List<Long> listId = (List<Long>) req.getSession().getAttribute("listId");
             listId.remove(id);
-        } catch (NumberFormatException | NoSuchElementException ignored) {}
+        } catch (NumberFormatException | NoSuchElementException ignored) { /* Never caught */ }
 
         resp.sendRedirect("view/MainPage.jsp");
     }

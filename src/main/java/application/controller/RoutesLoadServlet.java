@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 
 @WebServlet("/loadRoutesFromXml")
@@ -24,9 +24,11 @@ public class RoutesLoadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         Part filePart = req.getPart("file"); // Retrieves <input type="file" name="file">
+
         if (xmlLoaderBean.isValid(filePart.getInputStream())) {
-            List<RouteDTO> routes = xmlLoaderBean.loadFromXml(filePart.getInputStream()).orElse(new LinkedList<>());
+            List<RouteDTO> routes = xmlLoaderBean.loadFromXml(filePart.getInputStream()).orElse(Collections.emptyList());
             req.getSession().setAttribute("routes", routes);
             resp.sendRedirect("/view/LoadRoutesPage.jsp");
         } else {

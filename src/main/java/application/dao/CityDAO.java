@@ -6,10 +6,12 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import java.util.LinkedList;
+import javax.ejb.Stateless;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+@Stateless
 public class CityDAO {
 
     public Optional<City> findById(Long id) {
@@ -27,7 +29,7 @@ public class CityDAO {
             return query.list();
         } catch (HibernateException e) {
             e.printStackTrace();
-            return new LinkedList<>();
+            return Collections.emptyList();
         }
     }
 }

@@ -7,14 +7,16 @@ import application.exception.InsertionFailedException;
 import application.exception.NoSuchElementException;
 import application.entity.Route;
 import application.entity.TransportKinds;
-import lombok.NoArgsConstructor;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import java.util.List;
 
-@NoArgsConstructor
+@Stateless
 public class RouteService {
 
-    private final RouteDAO routeDAO = new RouteDAO();
+    @EJB
+    private RouteDAO routeDAO;
 
     public RouteDTO findById(Long id) throws NoSuchElementException {
         Route route = routeDAO.findById(id).orElseThrow(NoSuchElementException::new);

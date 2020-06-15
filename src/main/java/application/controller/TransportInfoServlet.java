@@ -4,6 +4,7 @@ import application.dto.transport.TransportDTO;
 import application.exception.NoSuchElementException;
 import application.service.TransportService;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +15,8 @@ import java.io.IOException;
 @WebServlet("/transportInfo")
 public class TransportInfoServlet extends HttpServlet {
 
-    final TransportService transportService = new TransportService();
+    @EJB
+    private TransportService transportService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

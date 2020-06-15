@@ -6,11 +6,15 @@ import application.dto.city.CityMapper;
 import application.entity.City;
 import application.exception.NoSuchElementException;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import java.util.List;
 
+@Stateless
 public class CityService {
 
-    private final CityDAO cityDAO = new CityDAO();
+    @EJB
+    private CityDAO cityDAO;
 
     public CityDTO findById(Long id) throws NoSuchElementException {
         City city = cityDAO.findById(id).orElseThrow(NoSuchElementException::new);

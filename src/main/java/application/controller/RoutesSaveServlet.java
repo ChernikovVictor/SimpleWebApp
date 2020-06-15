@@ -21,7 +21,8 @@ public class RoutesSaveServlet extends HttpServlet {
     @EJB
     private XmlLoaderBean xmlLoaderBean;
 
-    private final RouteService routeService = new RouteService();
+    @EJB
+    private RouteService routeService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

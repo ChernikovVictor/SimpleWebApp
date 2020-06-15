@@ -4,17 +4,20 @@ import application.entity.*;
 import application.exception.InsertionFailedException;
 import application.exception.NoSuchElementException;
 import application.service.ConnectionManager;
+import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import javax.persistence.NoResultException;
+import javax.ejb.Stateless;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Stateless
 public class RouteDAO {
 
     public Optional<Route> findById(Long id) {
@@ -68,7 +71,7 @@ public class RouteDAO {
             return query.list();
         } catch (HibernateException e) {
             e.printStackTrace();
-            return new LinkedList<>();
+            return Collections.emptyList();
         }
     }
 
@@ -78,7 +81,7 @@ public class RouteDAO {
             return query.list();
         } catch (HibernateException e) {
             e.printStackTrace();
-            return new LinkedList<>();
+            return Collections.emptyList();
         }
     }
 
@@ -92,9 +95,9 @@ public class RouteDAO {
     public boolean contains(Route route) {
         try (Session session = ConnectionManager.getSessionFactory().openSession()) {
             Query<Route> query = session.getNamedQuery("findByIndex").setParameter("index", route.getIndex());
-            query.getSingleResult();
-            return true;
-        } catch (NoResultException e) {
+            return CollectionUtils.isNotEmpty(query.list());
+        } catch (HibernateException e) {
+            e.printStackTrace();
             return false;
         }
     }
@@ -105,7 +108,7 @@ public class RouteDAO {
             return query.list();
         } catch (HibernateException e) {
             e.printStackTrace();
-            return new LinkedList<>();
+            return Collections.emptyList();
         }
     }
 }
