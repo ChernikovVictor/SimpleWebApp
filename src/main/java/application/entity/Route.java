@@ -10,10 +10,13 @@ public class Route {
 
     private Long id;
     private Integer index;
+
     private City departure;
     private City destination;
+
     private String departureTime;
     private String arrivalTime;
+
     private Transport transport;
 
     @Override

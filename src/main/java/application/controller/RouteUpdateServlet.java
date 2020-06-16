@@ -1,12 +1,12 @@
 package application.controller;
 
-import application.dao.CityDAO;
-import application.dao.TransportDAO;
+import application.dto.city.CityDTO;
 import application.dto.route.RouteDTO;
-import application.entity.City;
-import application.entity.Transport;
+import application.dto.transport.TransportDTO;
 import application.exception.NoSuchElementException;
+import application.service.CityService;
 import application.service.RouteService;
+import application.service.TransportService;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -22,29 +22,34 @@ public class RouteUpdateServlet extends HttpServlet {
     @EJB
     private RouteService routeService;
 
+    @EJB
+    private CityService cityService;
+
+    @EJB
+    private TransportService transportService;
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         try {
             RouteDTO routeDTO = createRoute(req);
             routeService.update(routeDTO);
         } catch (NoSuchElementException e) {
             e.printStackTrace();
+        } finally {
+            resp.sendRedirect("/view/MainPage.jsp");
         }
-
-        resp.sendRedirect("/view/MainPage.jsp");
     }
 
     private RouteDTO createRoute(HttpServletRequest req) throws NoSuchElementException {
 
         Long departureId = Long.parseLong(req.getParameter("departure"));
-        City departure = (new CityDAO()).findById(departureId).orElseThrow(NoSuchElementException::new);
+        CityDTO departure = cityService.findById(departureId);
 
         Long destinationId = Long.parseLong(req.getParameter("destination"));
-        City destination = (new CityDAO()).findById(destinationId).orElseThrow(NoSuchElementException::new);
+        CityDTO destination = cityService.findById(destinationId);
 
         Long transportId = Long.parseLong(req.getParameter("transport_kind"));
-        Transport transport = (new TransportDAO()).findById(transportId).orElseThrow(NoSuchElementException::new);
+        TransportDTO transport = transportService.findById(transportId);
 
         return RouteDTO.builder()
                 .id(Long.parseLong(req.getParameter("id")))

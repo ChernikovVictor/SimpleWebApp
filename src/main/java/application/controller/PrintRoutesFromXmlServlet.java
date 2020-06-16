@@ -61,7 +61,7 @@ public class PrintRoutesFromXmlServlet extends HttpServlet {
             if (routeService.contains(routeDTO)) {
                 row += cell("Есть в базе");
             } else {
-                row += cell("<a href=\"/addRouteFromXml?id=" + routeDTO.getId().toString() + "\">Добавить в базу</a>");
+                row += cell("<a href=\"/addRouteFromXml?index=" + routeDTO.getIndex().toString() + "\">Добавить в базу</a>");
             }
 
             writer.write(row);

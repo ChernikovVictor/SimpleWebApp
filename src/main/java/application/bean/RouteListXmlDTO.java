@@ -1,8 +1,6 @@
 package application.bean;
 
 import application.dto.route.RouteDTO;
-import application.entity.City;
-import application.entity.Transport;
 import lombok.AllArgsConstructor;
 
 import javax.xml.bind.annotation.*;
@@ -11,8 +9,7 @@ import java.util.List;
 
 /* Класс-DTO для сохранения списка маршрутов в XML файл */
 @AllArgsConstructor
-@XmlRootElement
-@XmlSeeAlso({RouteDTO.class, Transport.class, City.class})
+@XmlRootElement(name = "RouteList")
 public class RouteListXmlDTO {
 
     private List<RouteDTO> routes;

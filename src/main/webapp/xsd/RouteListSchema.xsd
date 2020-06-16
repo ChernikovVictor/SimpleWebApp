@@ -2,63 +2,47 @@
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-    <xs:element name="routeListXmlDTO">
+    <!-- CityDTO type -->
+    <xs:complexType name="cityType">
+        <xs:attribute name="id" type="xs:unsignedLong" use="required" />
+        <xs:attribute name="name" type="xs:string" use="required" />
+        <xs:attribute name="station" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <!-- TransportDTO type -->
+    <xs:complexType name="transportType">
+        <xs:sequence>
+            <xs:element name="kind" type="xs:string" />
+            <xs:element name="name" type="xs:string" />
+            <xs:element name="capacity" type="xs:long" />
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:unsignedLong" use="required" />
+    </xs:complexType>
+
+    <!-- RouteDTO type -->
+    <xs:complexType name="routeType">
+        <xs:sequence>
+            <xs:element name="departure" type="cityType" />
+            <xs:element name="destination" type="cityType" />
+            <xs:element name="departureTime" type="xs:string" />
+            <xs:element name="arrivalTime" type="xs:string" />
+            <xs:element name="transport" type="transportType" />
+        </xs:sequence>
+        <xs:attribute name="index" type="xs:unsignedLong" use="required" />
+    </xs:complexType>
+
+    <!-- List<RouteDTO> type -->
+    <xs:complexType name="routeListType">
+        <xs:sequence>
+            <xs:element name="route" type="routeType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Element for validation -->
+    <xs:element name="RouteList">
         <xs:complexType>
             <xs:sequence>
-
-                <xs:element name="routes" >
-                    <xs:complexType>
-                        <xs:sequence>
-
-                            <xs:element name="route" maxOccurs="unbounded">
-                                <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element name="id" type="xs:unsignedLong" />
-                                        <xs:element name="index" type="xs:integer" />
-
-                                        <xs:element name="departure">
-                                            <xs:complexType>
-                                                <xs:sequence>
-                                                    <xs:element name="id" type="xs:unsignedLong" />
-                                                    <xs:element name="name" type="xs:string" />
-                                                    <xs:element name="station" type="xs:string" />
-                                                </xs:sequence>
-                                            </xs:complexType>
-                                        </xs:element>
-
-                                        <xs:element name="destination">
-                                            <xs:complexType>
-                                                <xs:sequence>
-                                                    <xs:element name="id" type="xs:unsignedLong" />
-                                                    <xs:element name="name" type="xs:string" />
-                                                    <xs:element name="station" type="xs:string" />
-                                                </xs:sequence>
-                                            </xs:complexType>
-                                        </xs:element>
-
-
-                                        <xs:element name="departureTime" type="xs:string" />
-                                        <xs:element name="arrivalTime" type="xs:string" />
-
-                                        <xs:element name="transport">
-                                            <xs:complexType>
-                                                <xs:sequence>
-                                                    <xs:element name="id" type="xs:unsignedLong" />
-                                                    <xs:element name="kind" type="xs:string" />
-                                                    <xs:element name="name" type="xs:string" />
-                                                    <xs:element name="capacity" type="xs:long" />
-                                                </xs:sequence>
-                                            </xs:complexType>
-                                        </xs:element>
-
-                                    </xs:sequence>
-                                </xs:complexType>
-                            </xs:element>
-
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-
+                <xs:element name="routes" type="routeListType" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>

@@ -1,6 +1,10 @@
 package application.dto.route;
 
+import application.dto.city.CityDTO;
+import application.dto.transport.TransportDTO;
+import application.entity.City;
 import application.entity.Route;
+import application.entity.Transport;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -28,4 +32,12 @@ public interface RouteMapper {
                 .map(this::routeDtoToRoute)
                 .collect(Collectors.toCollection(LinkedList::new));
       }
+
+    CityDTO cityToCityDto(City city);
+
+    City cityDtoToCity(CityDTO cityDTO);
+
+    TransportDTO transportToTransportDto(Transport transport);
+
+    Transport transportDtoToTransport(TransportDTO transportDTO);
 }

@@ -23,9 +23,9 @@ public class RouteAddFromXmlServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            Long id = Long.parseLong(req.getParameter("id"));
+            Integer index = Integer.parseInt(req.getParameter("index"));
             List<RouteDTO> routes = (List<RouteDTO>) req.getSession().getAttribute("routes");
-            RouteDTO routeDTO = routes.parallelStream().filter(r -> r.getId().equals(id))
+            RouteDTO routeDTO = routes.parallelStream().filter(r -> r.getIndex().equals(index))
                     .findAny().orElseThrow(NoSuchElementException::new);
 
             routeService.add(routeDTO);
