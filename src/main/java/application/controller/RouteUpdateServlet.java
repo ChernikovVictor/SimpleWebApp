@@ -7,6 +7,7 @@ import application.exception.NoSuchElementException;
 import application.service.CityService;
 import application.service.RouteService;
 import application.service.TransportService;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 @WebServlet("/routeUpdate")
 public class RouteUpdateServlet extends HttpServlet {
 
@@ -34,7 +36,7 @@ public class RouteUpdateServlet extends HttpServlet {
             RouteDTO routeDTO = createRoute(req);
             routeService.update(routeDTO);
         } catch (NoSuchElementException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } finally {
             resp.sendRedirect("/view/MainPage.jsp");
         }

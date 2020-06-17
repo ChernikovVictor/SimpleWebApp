@@ -1,5 +1,6 @@
 package application.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -9,6 +10,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@Slf4j
 public class ConnectionManager {
 
     private static final SessionFactory sessionFactory = buildSessionFactory();
@@ -19,7 +21,7 @@ public class ConnectionManager {
             return new Configuration().configure().buildSessionFactory();
         }
         catch (Throwable ex) {
-            System.err.println("Initial SessionFactory creation failed." + ex);
+            log.error("Initial SessionFactory creation failed", ex);
             throw new ExceptionInInitializerError(ex);
         }
     }

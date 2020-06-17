@@ -4,6 +4,7 @@ import application.entity.*;
 import application.exception.InsertionFailedException;
 import application.exception.NoSuchElementException;
 import application.service.ConnectionManager;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Stateless
 public class RouteDAO {
 
@@ -24,7 +26,7 @@ public class RouteDAO {
         try (Session session = ConnectionManager.getSessionFactory().openSession()) {
             return Optional.ofNullable(session.get(Route.class, id));
         } catch (HibernateException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return Optional.empty();
         }
     }
@@ -36,7 +38,7 @@ public class RouteDAO {
             transaction.commit();
             return id;
         } catch (HibernateException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new InsertionFailedException();
         }
     }
@@ -51,7 +53,7 @@ public class RouteDAO {
             transaction.commit();
 
         } catch (HibernateException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -61,7 +63,7 @@ public class RouteDAO {
             session.update(route);
             transaction.commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -70,7 +72,7 @@ public class RouteDAO {
             Query<Route> query = session.createQuery("from Route");
             return query.list();
         } catch (HibernateException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return Collections.emptyList();
         }
     }
@@ -80,7 +82,7 @@ public class RouteDAO {
             Query<Route> query = session.getNamedQuery("findAllByTransportKind").setParameter("kind", kind);
             return query.list();
         } catch (HibernateException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return Collections.emptyList();
         }
     }
@@ -97,7 +99,7 @@ public class RouteDAO {
             Query<Route> query = session.getNamedQuery("findByIndex").setParameter("index", route.getIndex());
             return CollectionUtils.isNotEmpty(query.list());
         } catch (HibernateException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return false;
         }
     }
@@ -107,7 +109,7 @@ public class RouteDAO {
             Query<Route> query = session.getNamedQuery("findAllByCityName").setParameter("cityName", cityName);
             return query.list();
         } catch (HibernateException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return Collections.emptyList();
         }
     }

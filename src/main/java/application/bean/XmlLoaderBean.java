@@ -1,14 +1,12 @@
 package application.bean;
 
 import application.dto.route.RouteDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.xml.sax.SAXException;
 
 import javax.ejb.Stateless;
 import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.*;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -23,6 +21,7 @@ import java.util.Optional;
 
 /* Бин, экспортирующий маршруты в xml файлы, и наоборот */
 @Stateless
+@Slf4j
 public class XmlLoaderBean {
 
     /* Загрузить список из файла xml */
@@ -33,7 +32,7 @@ public class XmlLoaderBean {
             RouteListXmlDTO dto = (RouteListXmlDTO) unmarshaller.unmarshal(inputStream);
             return Optional.ofNullable(dto.getRoutes());
         } catch (JAXBException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return Optional.empty();
         }
     }
@@ -47,7 +46,7 @@ public class XmlLoaderBean {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshaller.marshal(dto, new File(filepath));
         } catch (JAXBException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -72,7 +71,7 @@ public class XmlLoaderBean {
             return true;
 
         } catch (SAXException | IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return false;
         }
     }

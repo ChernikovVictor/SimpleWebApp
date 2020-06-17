@@ -8,6 +8,7 @@ import application.exception.NoSuchElementException;
 import application.service.CityService;
 import application.service.RouteService;
 import application.service.TransportService;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @WebServlet("/addRoute")
 public class RouteAddServlet extends HttpServlet {
 
@@ -37,7 +39,7 @@ public class RouteAddServlet extends HttpServlet {
             List<Long> listId = (List<Long>) req.getSession().getAttribute("listId");
             listId.add(routeService.add(routeDTO));
         } catch (InsertionFailedException | NoSuchElementException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } finally {
             resp.sendRedirect("/view/MainPage.jsp");
         }

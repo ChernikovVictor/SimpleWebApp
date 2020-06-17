@@ -2,6 +2,7 @@ package application.dao;
 
 import application.entity.*;
 import application.service.ConnectionManager;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -11,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Stateless
 public class TransportDAO {
 
@@ -18,7 +20,7 @@ public class TransportDAO {
         try (Session session = ConnectionManager.getSessionFactory().openSession()) {
             return Optional.ofNullable(session.get(Transport.class, id));
         } catch (HibernateException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return Optional.empty();
         }
     }
@@ -28,7 +30,7 @@ public class TransportDAO {
             Query<Transport> query = session.createQuery("from Transport");
             return query.list();
         } catch (HibernateException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return Collections.emptyList();
         }
     }

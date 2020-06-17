@@ -12,8 +12,10 @@ import java.io.IOException;
 import java.util.List;
 import application.exception.NoSuchElementException;
 import application.service.RouteService;
+import lombok.extern.slf4j.Slf4j;
 
 /* Сервлет добавляет выбранный пользователем маршрут из xml-файла в базу данных */
+@Slf4j
 @WebServlet("/addRouteFromXml")
 public class RouteAddFromXmlServlet extends HttpServlet {
 
@@ -30,7 +32,7 @@ public class RouteAddFromXmlServlet extends HttpServlet {
 
             routeService.add(routeDTO);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } finally {
             resp.sendRedirect("view/LoadRoutesPage.jsp");
         }

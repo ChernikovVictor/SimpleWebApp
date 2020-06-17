@@ -3,6 +3,7 @@ package application.controller;
 import application.dto.transport.TransportDTO;
 import application.exception.NoSuchElementException;
 import application.service.TransportService;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 @WebServlet("/transportInfo")
 public class TransportInfoServlet extends HttpServlet {
 
@@ -28,7 +30,9 @@ public class TransportInfoServlet extends HttpServlet {
             req.setAttribute("kind", transport.getKind().name());
             req.setAttribute("name", transport.getName());
             req.setAttribute("capacity", transport.getCapacity());
-        } catch (NoSuchElementException | NumberFormatException ignored) { /* Never caught */ }
+        } catch (NoSuchElementException | NumberFormatException e) {
+            log.error(e.getMessage(), e);
+        }
 
         req.getRequestDispatcher("/view/TransportInfo.jsp").forward(req, resp);
     }
