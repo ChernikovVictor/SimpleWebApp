@@ -2,14 +2,12 @@ package application.dto.route;
 
 import application.dto.city.CityDTO;
 import application.dto.transport.TransportDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.xml.bind.annotation.*;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,5 +29,11 @@ public class RouteDTO {
     private String arrivalTime;
 
     private TransportDTO transport;
+
+    @Override
+    public String toString() {
+        return String.format("%d %s-%s %s-%s %s", id, departure.getName(),
+                destination.getName(), departureTime, arrivalTime, transport.getName());
+    }
 
 }

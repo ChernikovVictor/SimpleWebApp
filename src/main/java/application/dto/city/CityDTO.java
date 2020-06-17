@@ -1,16 +1,14 @@
 package application.dto.city;
 
 import application.entity.Route;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.xml.bind.annotation.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +26,10 @@ public class CityDTO {
     private String station;
 
     @XmlTransient
-    private Set<Route> routes = new HashSet<>();
+    private Set<Route> routesWithDeparture = new HashSet<>();
+
+    @XmlTransient
+    private Set<Route> routesWithDestination = new HashSet<>();
 
     @Override
     public String toString() {

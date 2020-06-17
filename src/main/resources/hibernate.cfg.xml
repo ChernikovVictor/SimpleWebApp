@@ -12,8 +12,9 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="show_sql">true</property>
 
-        <mapping resource="entity/City.hbm.xml"/>
-        <mapping resource="entity/Transport.hbm.xml"/>
-        <mapping resource="entity/Route.hbm.xml"/>
+        <mapping class="application.entity.City" />
+        <mapping class="application.entity.Transport" />
+        <mapping class="application.entity.Route" />
+
     </session-factory>
 </hibernate-configuration>
