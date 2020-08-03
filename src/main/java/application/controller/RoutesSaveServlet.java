@@ -4,7 +4,7 @@ import application.bean.XmlLoaderBean;
 import application.dto.route.RouteDTO;
 import application.service.RouteService;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,10 +18,10 @@ import java.util.Objects;
 @WebServlet("/saveAsXml")
 public class RoutesSaveServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private XmlLoaderBean xmlLoaderBean;
 
-    @EJB
+    @Inject
     private RouteService routeService;
 
     @Override
@@ -32,7 +32,7 @@ public class RoutesSaveServlet extends HttpServlet {
         String filepath = req.getParameter("filepath");
 
         if (Objects.nonNull(listId) && Objects.nonNull(filepath)) {
-            List<RouteDTO> routeDTOs = routeService.findAllByIds((List<Long>) listId);
+            List<RouteDTO> routeDTOs = routeService.findByIds((List<Long>) listId);
             xmlLoaderBean.saveAsXml(routeDTOs, filepath);
         }
 

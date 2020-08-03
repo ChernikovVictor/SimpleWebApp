@@ -9,7 +9,7 @@ import application.service.RouteService;
 import application.service.TransportService;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,20 +21,20 @@ import java.io.IOException;
 @WebServlet("/routeUpdate")
 public class RouteUpdateServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private RouteService routeService;
 
-    @EJB
+    @Inject
     private CityService cityService;
 
-    @EJB
+    @Inject
     private TransportService transportService;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             RouteDTO routeDTO = createRoute(req);
-            routeService.update(routeDTO);
+            routeService.makePersistent(routeDTO);
         } catch (NoSuchElementException e) {
             log.error(e.getMessage(), e);
         } finally {

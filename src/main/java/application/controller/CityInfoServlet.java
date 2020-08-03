@@ -5,7 +5,7 @@ import application.exception.NoSuchElementException;
 import application.service.CityService;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +17,7 @@ import java.io.IOException;
 @WebServlet("/cityInfo")
 public class CityInfoServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private CityService cityService;
 
     @Override

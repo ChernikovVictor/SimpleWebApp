@@ -3,7 +3,7 @@ package application.controller;
 import application.dto.route.RouteDTO;
 import application.service.RouteService;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +18,7 @@ import java.util.Objects;
 @WebServlet("/printRoutesFromXml")
 public class PrintRoutesFromXmlServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private RouteService routeService;
 
     @Override

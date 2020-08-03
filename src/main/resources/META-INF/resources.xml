@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomee>
+
+    <Resource id="jdbc/myDataSource" type="DataSource">
+        JdbcDriver = com.mysql.cj.jdbc.Driver
+        JdbcUrl = jdbc:mysql://localhost:3306/dbName?serverTimezone=Europe/Moscow&amp;useSSL=FALSE&amp;autoReconnect=true
+        UserName = root
+        Password = password
+        JtaManaged = true
+        validationQuery = SELECT 1
+        maxActive = 10
+        maxIdle = 10
+    </Resource>
+
+</tomee>

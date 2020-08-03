@@ -3,7 +3,7 @@ package application.controller;
 import application.dto.transport.TransportDTO;
 import application.service.TransportService;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @WebServlet("/transportsComboBox")
 public class PrintTransportListServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private TransportService transportService;
 
     @Override

@@ -4,7 +4,7 @@ import application.dto.route.RouteDTO;
 import application.entity.TransportKinds;
 import application.service.RouteService;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @WebServlet("/findRoutesByTransportKind")
 public class RoutesFindByTransportKindServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private RouteService routeService;
 
     @Override
@@ -33,9 +33,9 @@ public class RoutesFindByTransportKindServlet extends HttpServlet {
         if (Objects.isNull(kind)) {
             routeDTOs = Collections.emptyList();
         } else if (kind.equals("trains")) {
-            routeDTOs = routeService.findAllByTransportKind(TransportKinds.TRAIN);
+            routeDTOs = routeService.findByTransportKind(TransportKinds.TRAIN);
         } else if (kind.equals("planes")) {
-            routeDTOs = routeService.findAllByTransportKind(TransportKinds.PLANE);
+            routeDTOs = routeService.findByTransportKind(TransportKinds.PLANE);
         } else {
             routeDTOs = routeService.findAll();
         }

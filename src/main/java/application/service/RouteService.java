@@ -1,21 +1,23 @@
 package application.service;
 
-import application.dao.RouteDAO;
+import application.dao.route.RouteDAO;
 import application.dto.route.RouteDTO;
 import application.dto.route.RouteMapper;
-import application.exception.InsertionFailedException;
 import application.exception.NoSuchElementException;
 import application.entity.Route;
 import application.entity.TransportKinds;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.transaction.Transactional;
 import java.util.List;
 
-@Stateless
+@Named
+@RequestScoped
 public class RouteService {
 
-    @EJB
+    @Inject
     private RouteDAO routeDAO;
 
     public RouteDTO findById(Long id) throws NoSuchElementException {
@@ -23,34 +25,31 @@ public class RouteService {
         return RouteMapper.INSTANCE.routeToRouteDto(route);
     }
 
-    public Long add(RouteDTO routeDTO) throws InsertionFailedException {
-        Route route = RouteMapper.INSTANCE.routeDtoToRoute(routeDTO);
-        return routeDAO.add(route);
+    @Transactional
+    public void makeTransient(Long id) {
+        routeDAO.makeTransient(id);
     }
 
-    public void removeById(Long id) throws NoSuchElementException {
-        routeDAO.removeById(id);
-    }
-
-    public void update(RouteDTO routeDTO) {
+    @Transactional
+    public Route makePersistent(RouteDTO routeDTO) {
         Route route = RouteMapper.INSTANCE.routeDtoToRoute(routeDTO);
-        routeDAO.update(route);
+        return routeDAO.makePersistent(route);
     }
 
     public List<RouteDTO> findAll() {
         return RouteMapper.INSTANCE.routesToRouteDTOs(routeDAO.findAll());
     }
 
-    public List<RouteDTO> findAllByTransportKind(TransportKinds kind) {
-        return RouteMapper.INSTANCE.routesToRouteDTOs(routeDAO.findAllByTransportKind(kind));
+    public List<RouteDTO> findByTransportKind(TransportKinds kind) {
+        return RouteMapper.INSTANCE.routesToRouteDTOs(routeDAO.findByTransportKind(kind));
     }
 
-    public List<RouteDTO> findAllByCityName(String cityName) {
-        return RouteMapper.INSTANCE.routesToRouteDTOs(routeDAO.findAllByCityName(cityName));
+    public List<RouteDTO> findByCityName(String cityName) {
+        return RouteMapper.INSTANCE.routesToRouteDTOs(routeDAO.findByCityName(cityName));
     }
 
-    public List<RouteDTO> findAllByIds(List<Long> ids) {
-        return RouteMapper.INSTANCE.routesToRouteDTOs(routeDAO.findAllByIds(ids));
+    public List<RouteDTO> findByIds(List<Long> ids) {
+        return RouteMapper.INSTANCE.routesToRouteDTOs(routeDAO.findByIds(ids));
     }
 
     public boolean contains(RouteDTO routeDTO) {

@@ -1,10 +1,9 @@
 package application.controller;
 
-import application.exception.NoSuchElementException;
 import application.service.RouteService;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +16,7 @@ import java.util.List;
 @WebServlet("/removeRoute")
 public class RouteRemoveServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private RouteService routeService;
 
     @Override
@@ -25,10 +24,10 @@ public class RouteRemoveServlet extends HttpServlet {
 
         try {
             Long id = Long.parseLong(req.getParameter("id"));
-            routeService.removeById(id);
+            routeService.makeTransient(id);
             List<Long> listId = (List<Long>) req.getSession().getAttribute("listId");
             listId.remove(id);
-        } catch (NumberFormatException | NoSuchElementException e) {
+        } catch (NumberFormatException e) {
             log.error(e.getMessage(), e);
         }
 

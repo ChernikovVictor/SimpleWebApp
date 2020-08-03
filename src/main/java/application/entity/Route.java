@@ -3,6 +3,7 @@ package application.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -12,11 +13,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "routes")
 @NamedQueries({
-        @NamedQuery(name = "findAllByTransportKind", query = "from Route r where r.transport.kind = :kind"),
-        @NamedQuery(name = "findAllByCityName", query = "from Route r where r.departure.name = :cityName or r.destination.name = :cityName"),
+        @NamedQuery(name = "findByTransportKind", query = "from Route r where r.transport.kind = :kind"),
+        @NamedQuery(name = "findByCityName", query = "from Route r where r.departure.name = :cityName or r.destination.name = :cityName"),
         @NamedQuery(name = "findByIndex", query = "from Route r where r.index = :index")
 })
-public class Route {
+public class Route implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,7 +3,7 @@ package application.controller;
 import application.dto.city.CityDTO;
 import application.service.CityService;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @WebServlet("/citiesComboBox")
 public class PrintCityListServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private CityService cityService;
 
     @Override

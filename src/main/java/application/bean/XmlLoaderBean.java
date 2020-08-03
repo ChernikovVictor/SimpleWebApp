@@ -4,7 +4,7 @@ import application.dto.route.RouteDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.xml.sax.SAXException;
 
-import javax.ejb.Stateless;
+import javax.inject.Named;
 import javax.xml.XMLConstants;
 import javax.xml.bind.*;
 import javax.xml.transform.Source;
@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Optional;
 
 /* Бин, экспортирующий маршруты в xml файлы, и наоборот */
-@Stateless
 @Slf4j
+@Named
 public class XmlLoaderBean {
 
     /* Загрузить список из файла xml */

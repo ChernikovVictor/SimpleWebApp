@@ -1,19 +1,21 @@
 package application.service;
 
-import application.dao.CityDAO;
+import application.dao.city.CityDAO;
 import application.dto.city.CityDTO;
 import application.dto.city.CityMapper;
 import application.entity.City;
 import application.exception.NoSuchElementException;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.List;
 
-@Stateless
+@Named
+@RequestScoped
 public class CityService {
 
-    @EJB
+    @Inject
     private CityDAO cityDAO;
 
     public CityDTO findById(Long id) throws NoSuchElementException {

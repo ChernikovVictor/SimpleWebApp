@@ -3,7 +3,7 @@ package application.controller;
 import application.bean.XmlLoaderBean;
 import application.dto.route.RouteDTO;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +19,7 @@ import java.util.List;
 @MultipartConfig
 public class RoutesLoadServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private XmlLoaderBean xmlLoaderBean;
 
     @Override

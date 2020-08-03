@@ -3,7 +3,7 @@ package application.controller;
 import application.dto.route.RouteDTO;
 import application.service.RouteService;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @WebServlet("/findRoutesByCityName")
 public class RoutesFindByCityServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private RouteService routeService;
 
     @Override
@@ -28,7 +28,7 @@ public class RoutesFindByCityServlet extends HttpServlet {
         // TODO: искать только индексы, а не дтошки целиком
         String cityName = req.getParameter("cityName");
         if (Objects.nonNull(cityName)) {
-            List<RouteDTO> routeDTOs = routeService.findAllByCityName(cityName);
+            List<RouteDTO> routeDTOs = routeService.findByCityName(cityName);
             List<Long> listId = routeDTOs.stream().map(RouteDTO::getId).collect(Collectors.toCollection(LinkedList::new));
             req.getSession().setAttribute("listId", listId);
         }

@@ -1,19 +1,21 @@
 package application.service;
 
-import application.dao.TransportDAO;
+import application.dao.transport.TransportDAO;
 import application.dto.transport.TransportDTO;
 import application.dto.transport.TransportMapper;
 import application.entity.Transport;
 import application.exception.NoSuchElementException;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.List;
 
-@Stateless
+@Named
+@RequestScoped
 public class TransportService {
 
-    @EJB
+    @Inject
     private TransportDAO transportDAO;
 
     public TransportDTO findById(Long id) throws NoSuchElementException {

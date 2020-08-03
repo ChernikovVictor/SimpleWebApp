@@ -3,6 +3,7 @@ package application.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "transports")
-public class Transport {
+public class Transport implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,14 +3,13 @@ package application.controller;
 import application.dto.city.CityDTO;
 import application.dto.route.RouteDTO;
 import application.dto.transport.TransportDTO;
-import application.exception.InsertionFailedException;
 import application.exception.NoSuchElementException;
 import application.service.CityService;
 import application.service.RouteService;
 import application.service.TransportService;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,13 +22,13 @@ import java.util.List;
 @WebServlet("/addRoute")
 public class RouteAddServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private RouteService routeService;
 
-    @EJB
+    @Inject
     private CityService cityService;
 
-    @EJB
+    @Inject
     private TransportService transportService;
 
     @Override
@@ -37,8 +36,8 @@ public class RouteAddServlet extends HttpServlet {
         try {
             RouteDTO routeDTO = createRoute(req);
             List<Long> listId = (List<Long>) req.getSession().getAttribute("listId");
-            listId.add(routeService.add(routeDTO));
-        } catch (InsertionFailedException | NoSuchElementException e) {
+            listId.add(routeService.makePersistent(routeDTO).getId());
+        } catch (NoSuchElementException e) {
             log.error(e.getMessage(), e);
         } finally {
             resp.sendRedirect("/view/MainPage.jsp");

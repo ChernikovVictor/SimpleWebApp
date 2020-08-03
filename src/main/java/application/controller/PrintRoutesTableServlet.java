@@ -3,7 +3,7 @@ package application.controller;
 import application.dto.route.RouteDTO;
 import application.service.RouteService;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +18,7 @@ import java.util.Objects;
 @WebServlet("/routesTable")
 public class PrintRoutesTableServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private RouteService routeService;
 
     @Override
@@ -27,7 +27,7 @@ public class PrintRoutesTableServlet extends HttpServlet {
         // айдишники запрошенных маршрутов
         Object listId = req.getSession().getAttribute("listId");
         if (Objects.nonNull(listId) && listId instanceof List<?>) {
-            List<RouteDTO> routeDTOs = routeService.findAllByIds((List<Long>) listId);
+            List<RouteDTO> routeDTOs = routeService.findByIds((List<Long>) listId);
             writeTable(routeDTOs, resp.getWriter());
         }
     }

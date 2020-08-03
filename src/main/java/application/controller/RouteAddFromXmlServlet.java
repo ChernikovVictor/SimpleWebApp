@@ -2,7 +2,7 @@ package application.controller;
 
 import application.dto.route.RouteDTO;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @WebServlet("/addRouteFromXml")
 public class RouteAddFromXmlServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private RouteService routeService;
 
     @Override
@@ -30,7 +30,7 @@ public class RouteAddFromXmlServlet extends HttpServlet {
             RouteDTO routeDTO = routes.parallelStream().filter(r -> r.getIndex().equals(index))
                     .findAny().orElseThrow(NoSuchElementException::new);
 
-            routeService.add(routeDTO);
+            routeService.makePersistent(routeDTO);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         } finally {
